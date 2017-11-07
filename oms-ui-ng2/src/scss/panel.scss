@@ -1,0 +1,205 @@
+.panel {
+  margin-bottom: 20px;
+  background-color: #fff;
+  border:0px !important;
+  border-radius: 4px;
+  box-shadow: 0 0px 0px rgba(0,0,0,.05) !important;
+}
+.panel-default>.panel-heading{
+  background-color:white;
+}
+/** Custom Panel **/
+.custom-container{
+  background-color: #f7f8fa;
+  box-shadow: 0px 3px 12px -2px #ccc !important;
+  &.noBottomMargin{
+    margin-bottom: 0px;
+  }
+  &.noBottomRadius{
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .hand-cursor{
+    cursor: pointer;
+  }
+  .panel-heading , .sub-section-header{
+    height: 65px;
+    background-color: #f7f8fa;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 14px 5px 14px 20px;
+    border-bottom: 0px;
+    position: relative;
+    &.med-heading{
+      height: 50px;
+      padding: 9px 5px 14px 16px;
+      font-size: 14px;
+    }
+    &.bottom-border{
+      border-bottom: 1px solid #e6e6e6;
+    }
+    .accordion-icon{
+      margin:12px;
+      cursor: pointer;
+    }
+    .headingContainer{
+      padding-top:6px;
+      padding-bottom: 6px;
+      //text-transform: uppercase;
+    }
+    .heading-arrow {
+      background-image: url('./assets/images/slicing.png');
+      background-position: -132px -134px;
+      background-size: 225px auto;
+      display: inline-block;
+      height: 20px;
+      left: -4px;
+      position: relative;
+      top: 4px;
+      width: 21px;
+      cursor: pointer;
+    }
+    .action-icon {
+      background-image: url('assets/images/slicing.png');
+      background-size: 229px auto;
+      display: inline-block;
+      height: 40px;
+      border: 1px solid #999;
+      /*position: absolute;
+      top: 12px;*/
+      min-width: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      background-color: #f7f8fa;
+      &:hover {
+        background-color: #5cb85c;
+        border: 0px;
+      }
+      &.search {
+        background-position: -352px -581px;
+        position: relative;
+        left:-14px;
+        &:hover {
+          background-position: -418px -581px;
+        }
+      }
+      &.filter {
+        background-position: -353px -622px;
+        right: 62px;
+        &:hover {
+          background-position: -418px -622px;
+        }
+        &.active{
+          background-position: -418px -622px;
+          background-color: #5cb85c;
+          border: 0px;
+        }
+      }
+    }
+  }
+  .panel-body{
+    background-color: #fff;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding:0;
+    .row {
+      margin: 20px 0;
+      position: relative;
+      .mat-input-container {
+        width: 100%;
+        .info-icon {
+          background-image: url('assets/images/slicing.png');
+          background-position: -354px -670px;
+          background-size: 225px auto;
+          display: inline-block;
+          height: 20px;
+          position: absolute;
+          right: 2px;
+          top: -2px;
+          width: 21px;
+        }
+      }
+      &.broder-bottom{
+        border-bottom: 1px solid #e6e6e6;
+      }
+      .mat-select-panel{
+        margin-top:42px !important;
+      }
+      .mat-select {
+        width: 100%;
+      }
+      .input-help-txt {
+        bottom: -7px;
+        color: #bdbdbd;
+        font-size: 12px;
+        position: absolute;
+        right: 15px;
+      }
+      .cus-label{
+        font-size: 12px;
+        font-weight: 600;
+        color: #bdbdbd
+      }
+      .cus-label-txt{
+        font-size: 14px;
+        font-weight: 900;
+      }
+      .action-btn{
+        padding:8px 0px;
+        text-align: right;
+        .fa{
+          margin-left:5px;
+          color: #000;
+        }
+      }
+      .txt-right{
+        text-align: right;
+      }
+      .btn-default{
+        border-color:#000;
+        font-weight:700;
+        &:hover{
+        }
+      }
+      .default-border-color{
+        border-color:#adadad ;
+      }
+    }
+    &.filters {
+      background-color: #f2f2f2;
+      .filtersFooter{
+        padding: 10px 15px 40px;
+        border-top: 0px;
+        background-color: #f2f2f2;
+        .btn {
+          padding: 7px 25px;
+          font-size: 18px;
+        }
+        .btn-default {
+          border: 0px;
+          background-color: #f2f2f2;
+          margin:  0 5px;
+          color: #787878;
+        }
+      }
+    }
+  }
+  .panel-footer {
+    padding: 10px 30px 40px;
+    border-top: 0px;
+    background-color: #fff;
+    .btn {
+      padding: 7px 25px;
+      font-size: 18px;
+    }
+    .btn-default {
+      border: 0px;
+      background-color: #fff;
+      color: #878787;
+      margin:  0 5px;
+    }
+    .btn-success{
+      color: #f6f8fa;
+    }
+  }
+}

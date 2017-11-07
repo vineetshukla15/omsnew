@@ -1,0 +1,408 @@
+{
+    "orderName": "test_proposal_18092017_1215",
+    "created": 1507294336098,
+    "updated": 1507294336098,
+    "orderId": 22,
+    "proposalId": 284,
+    "description": null,
+    "opportunityId": 135,
+    "statusId": 5,
+    "orderLineItems": [
+        {
+            "created": 1507294336191,
+            "updated": 1507294336191,
+            "lineItemId": 120,
+            "productId": 382,
+            "flightStartdate": 1505759400000,
+            "flightEndDate": 1505759400000,
+            "specTypeid": 1,
+            "proposalId": 284,
+            "name": null,
+            "cpms": "1",
+            "avails": "1",
+            "quantity": null,
+            "proposedCost": 455,
+            "deliveryImpressions": "As fast as possible",
+            "displayCreatives": "One or more",
+            "rotateCreatives": "Evenly",
+            "priority": "Standard(Low)",
+            "priorityValues": 0,
+            "rateTypeId": 3,
+            "target": [
+                {
+                    "id": 250,
+                    "audienceTargetType": {
+                        "created": null,
+                        "updated": null,
+                        "targetTypeId": 6,
+                        "name": "Browser",
+                        "status": true,
+                        "audienceTargetValues": [
+                            {
+                                "id": 18,
+                                "value": "Chrome",
+                                "status": true
+                            },
+                            {
+                                "id": 19,
+                                "value": "Firfox",
+                                "status": true
+                            },
+                            {
+                                "id": 20,
+                                "value": "Safari",
+                                "status": true
+                            },
+                            {
+                                "id": 21,
+                                "value": "IE",
+                                "status": true
+                            }
+                        ]
+                    },
+                    "orderAudienceTargetValues": [
+                        {
+                            "id": 63,
+                            "value": "IE",
+                            "status": true,
+                            "orderTargetId": 21
+                        },
+                        {
+                            "id": 64,
+                            "value": "Firfox",
+                            "status": true,
+                            "orderTargetId": 19
+                        },
+                        {
+                            "id": 65,
+                            "value": "Safari",
+                            "status": true,
+                            "orderTargetId": 20
+                        },
+                        {
+                            "id": 66,
+                            "value": "Chrome",
+                            "status": true,
+                            "orderTargetId": 18
+                        }
+                    ]
+                },
+                {
+                    "id": 251,
+                    "audienceTargetType": {
+                        "created": null,
+                        "updated": null,
+                        "targetTypeId": 3,
+                        "name": "States",
+                        "status": true,
+                        "audienceTargetValues": [
+                            {
+                                "id": 9,
+                                "value": "UP",
+                                "status": true
+                            },
+                            {
+                                "id": 10,
+                                "value": "Delhi",
+                                "status": true
+                            },
+                            {
+                                "id": 11,
+                                "value": "Punjab",
+                                "status": true
+                            }
+                        ]
+                    },
+                    "orderAudienceTargetValues": [
+                        {
+                            "id": 67,
+                            "value": "Delhi",
+                            "status": true,
+                            "orderTargetId": 10
+                        },
+                        {
+                            "id": 68,
+                            "value": "UP",
+                            "status": true,
+                            "orderTargetId": 9
+                        },
+                        {
+                            "id": 69,
+                            "value": "Punjab",
+                            "status": true,
+                            "orderTargetId": 11
+                        }
+                    ]
+                },
+                {
+                    "id": 252,
+                    "audienceTargetType": {
+                        "created": null,
+                        "updated": null,
+                        "targetTypeId": 1,
+                        "name": "Age",
+                        "status": true,
+                        "audienceTargetValues": [
+                            {
+                                "id": 1,
+                                "value": "18-24",
+                                "status": true
+                            },
+                            {
+                                "id": 2,
+                                "value": "25-39",
+                                "status": true
+                            },
+                            {
+                                "id": 3,
+                                "value": "40-49",
+                                "status": true
+                            },
+                            {
+                                "id": 4,
+                                "value": "50-59",
+                                "status": true
+                            },
+                            {
+                                "id": 5,
+                                "value": "60-69",
+                                "status": true
+                            },
+                            {
+                                "id": 6,
+                                "value": "70+",
+                                "status": true
+                            }
+                        ]
+                    },
+                    "orderAudienceTargetValues": [
+                        {
+                            "id": 70,
+                            "value": "40-49",
+                            "status": true,
+                            "orderTargetId": 3
+                        },
+                        {
+                            "id": 71,
+                            "value": "50-59",
+                            "status": true,
+                            "orderTargetId": 4
+                        },
+                        {
+                            "id": 72,
+                            "value": "25-39",
+                            "status": true,
+                            "orderTargetId": 2
+                        }
+                    ]
+                }
+            ],
+            "priceAfterDiscount": null,
+            "orderLineItemId": 33,
+            "specTypeId": 1
+        },
+        {
+            "created": 1507294336214,
+            "updated": 1507294336214,
+            "lineItemId": 125,
+            "productId": 382,
+            "flightStartdate": 1505932200000,
+            "flightEndDate": 1506623400000,
+            "specTypeid": 2,
+            "proposalId": 284,
+            "name": null,
+            "cpms": "1",
+            "avails": "6",
+            "quantity": null,
+            "proposedCost": 595.35,
+            "deliveryImpressions": "As fast as possible",
+            "displayCreatives": "One or more",
+            "rotateCreatives": "Evenly",
+            "priority": "Standard(Low)",
+            "priorityValues": 0,
+            "rateTypeId": 3,
+            "target": [
+                {
+                    "id": 253,
+                    "audienceTargetType": {
+                        "created": null,
+                        "updated": null,
+                        "targetTypeId": 3,
+                        "name": "States",
+                        "status": true,
+                        "audienceTargetValues": [
+                            {
+                                "id": 9,
+                                "value": "UP",
+                                "status": true
+                            },
+                            {
+                                "id": 10,
+                                "value": "Delhi",
+                                "status": true
+                            },
+                            {
+                                "id": 11,
+                                "value": "Punjab",
+                                "status": true
+                            }
+                        ]
+                    },
+                    "orderAudienceTargetValues": [
+                        {
+                            "id": 73,
+                            "value": "Delhi",
+                            "status": true,
+                            "orderTargetId": 10
+                        },
+                        {
+                            "id": 74,
+                            "value": "UP",
+                            "status": true,
+                            "orderTargetId": 9
+                        },
+                        {
+                            "id": 75,
+                            "value": "Punjab",
+                            "status": true,
+                            "orderTargetId": 11
+                        }
+                    ]
+                },
+                {
+                    "id": 254,
+                    "audienceTargetType": {
+                        "created": null,
+                        "updated": null,
+                        "targetTypeId": 6,
+                        "name": "Browser",
+                        "status": true,
+                        "audienceTargetValues": [
+                            {
+                                "id": 18,
+                                "value": "Chrome",
+                                "status": true
+                            },
+                            {
+                                "id": 19,
+                                "value": "Firfox",
+                                "status": true
+                            },
+                            {
+                                "id": 20,
+                                "value": "Safari",
+                                "status": true
+                            },
+                            {
+                                "id": 21,
+                                "value": "IE",
+                                "status": true
+                            }
+                        ]
+                    },
+                    "orderAudienceTargetValues": [
+                        {
+                            "id": 76,
+                            "value": "Firfox",
+                            "status": true,
+                            "orderTargetId": 19
+                        },
+                        {
+                            "id": 77,
+                            "value": "IE",
+                            "status": true,
+                            "orderTargetId": 21
+                        },
+                        {
+                            "id": 78,
+                            "value": "Safari",
+                            "status": true,
+                            "orderTargetId": 20
+                        },
+                        {
+                            "id": 79,
+                            "value": "Chrome",
+                            "status": true,
+                            "orderTargetId": 18
+                        }
+                    ]
+                }
+            ],
+            "priceAfterDiscount": null,
+            "orderLineItemId": 34,
+            "specTypeId": 2
+        }
+    ],
+    "agency": {
+        "created": 1497244490000,
+        "updated": 1497244490000,
+        "companyId": 108,
+        "type": "Agency",
+        "name": "MadHouse",
+        "customer": {
+            "updated": null,
+            "customerID": 3,
+            "customerName": "hotstar",
+            "customerEmail": "ritesh.nailwal@tavant.cim",
+            "customerPhone": "9818871522",
+            "status": 100,
+            "customerAddress": null
+        },
+        "companyStatus": {
+            "created": null,
+            "updated": null,
+            "companyStatusId": 4,
+            "name": "Credit Stop",
+            "status": true
+        },
+        "address": "Wille Parle Mumbai , India",
+        "vpzid": null
+    },
+    "startDate": null,
+    "endDate": null,
+    "dueDate": null,
+    "currency": "USD",
+    "pricingModel": "Gross",
+    "advertiser": {
+        "created": 1497244454000,
+        "updated": 1502302756000,
+        "companyId": 107,
+        "type": "Advertiser",
+        "name": "Ford",
+        "customer": {
+            "updated": null,
+            "customerID": 3,
+            "customerName": "hotstar",
+            "customerEmail": "ritesh.nailwal@tavant.cim",
+            "customerPhone": "9818871522",
+            "status": 100,
+            "customerAddress": null
+        },
+        "companyStatus": {
+            "created": null,
+            "updated": null,
+            "companyStatusId": 2,
+            "name": "Active",
+            "status": true
+        },
+        "address": "Sector-8 , Noida , UP -20130",
+        "vpzid": null
+    },
+    "advertiserDiscount": 45,
+    "budget": 3555,
+    "salesPersonId": 2,
+    "assignToId": 410,
+    "traffickerId": 6,
+    "billingSourceId": 1,
+    "termid": null,
+    "percentageOfClose": 45,
+    "salesCategoryId": 4,
+    "submitted": false,
+    "notes": null,
+    "proposalDiscount": 0,
+    "type": null,
+    "plannerName": null,
+    "action": null,
+    "mediaPlannerId": 410,
+    "agencyMargin": null
+}

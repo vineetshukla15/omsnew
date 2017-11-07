@@ -1,0 +1,115 @@
+<div class="panel panel-default custom-container">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      Orders
+    </div>
+    <div class="pull-right">
+      <span class="action-icon filter" (click)="(filterHeight = filterHeight ? 0 : filterSection.scrollHeight );(filters = !filters)"></span>
+      <dt-search [ddArray]="orderSearchTableDD" (onDTSearch)="orderSearchEvent($event)"></dt-search>
+    </div>
+  </div>
+  <div class="panel-body filters slideDown" [style.height]="filterHeight + 'px'" #filterSection>
+    <form [formGroup]="advanceForm" novalidate>
+        <div class="row ">
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input placeholder="Name" mdInput type="text" formControlName="name" />
+            </md-input-container>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <dl>
+              <dt class="dd-label">Advertiser</dt>
+              <dd>
+                <div class="custom-multi-select-dd margin-top single-select">
+                  <div class="customHeightDropdown">
+                    <ss-multiselect-dropdown [options]="advertiserOptions" [settings]="singleSelectSettings" formControlName="advertiser"
+                      >
+                    </ss-multiselect-dropdown>
+                  </div>
+                </div>
+              </dd>
+            </dl>
+          </div>
+          <div class="col-sm-4 col-md-4">
+          <dl>
+            <dt class="dd-label">Agency</dt>
+            <dd>
+              <div class="custom-multi-select-dd margin-top single-select">
+                <div class="customHeightDropdown">
+                  <ss-multiselect-dropdown [options]="agencyOptions" [settings]="singleSelectSettings" formControlName="agency">
+                  </ss-multiselect-dropdown>
+                </div>
+              </div>
+            </dd>
+          </dl>
+        </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4 col-md-4">
+            <div class="custom-date-picker">
+              <md-input-container class="required" (click)="calendarBtnClick($event, 'isNewCreatedDateOpen')">
+                <input mdInput [ngModel]="advanceSearchModelOBj.searchCreatedDate | date: 'dd-MMM-yyyy'" placeholder="Requested On"
+                  [readonly]="true" formControlName="startDate">
+                <button mdSuffix [mdDatepickerToggle]=""></button>
+              </md-input-container>
+              <div class="date-picker-container" *ngIf="calendarArr['isNewCreatedDateOpen']" (click)="clickOnDatepicker($event, 'isNewCreatedDateOpen')">
+                <datepicker [showWeeks]="false" [(ngModel)]="advanceSearchModelOBj.searchCreatedDate" [minDate]="currentDate" (selectionDone)="calendarArr['isNewCreatedDateOpen']=false" [ngModelOptions]="{standalone: true}"></datepicker>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-4 col-md-4">
+            <div class="custom-date-picker">
+              <md-input-container class="required" (click)="calendarBtnClick($event, 'isEndDateOpen')">
+                <input mdInput [ngModel]="advanceSearchModelOBj.searchEndDate | date: 'dd-MMM-yyyy'" placeholder="End Date"
+                  [readonly]="true" formControlName="endDate">
+                <button mdSuffix [mdDatepickerToggle]=""></button>
+              </md-input-container>
+              <div class="date-picker-container" *ngIf="calendarArr['isEndDateOpen']" (click)="clickOnDatepicker($event, 'isEndDateOpen')">
+                <datepicker [showWeeks]="false" [(ngModel)]="advanceSearchModelOBj.searchEndDate" [minDate]="currentDate" (selectionDone)="calendarArr['isEndDateOpen']=false" [ngModelOptions]="{standalone: true}"></datepicker>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4 col-md-4">
+            <div class="custom-date-picker">
+              <md-input-container class="required" (click)="calendarBtnClick($event, 'isDueDateOpen')">
+                <input mdInput [ngModel]="advanceSearchModelOBj.searchDueDate | date: 'dd-MMM-yyyy'" placeholder="Due On"
+                  [readonly]="true" formControlName="dueDate">
+                <button mdSuffix [mdDatepickerToggle]=""></button>
+              </md-input-container>
+              <div class="date-picker-container" *ngIf="calendarArr['isDueDateOpen']" (click)="clickOnDatepicker($event, 'isDueDateOpen')">
+                <datepicker [showWeeks]="false" [(ngModel)]="advanceSearchModelOBj.searchDueDate" [minDate]="currentDate" (selectionDone)="calendarArr['isDueDateOpen']=false" [ngModelOptions]="{standalone: true}"></datepicker>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-4 col-md-4">
+          <dl>
+            <dt class="dd-label">Sales Category</dt>
+            <dd>
+              <div class="custom-multi-select-dd margin-top single-select">
+                <div class="customHeightDropdown">
+                  <ss-multiselect-dropdown [options]="salesCategoryOptions" [settings]="singleSelectSettings" formControlName="salesCategory">
+                  </ss-multiselect-dropdown>
+                </div>
+              </div>
+            </dd>
+          </dl>
+        </div>
+        </div>
+
+        <div class="filtersFooter text-right">
+          <button type="button" class="btn btn-default">RESET</button>
+          <button type="button" class="btn btn-success" (click)="applyAdvanceFilter()">APPLY</button>
+        </div>
+      </form>
+  </div>
+  <div class="panel-body noPadding transparent-bg" *ngIf="isRegenerate">
+    <dt-table [config]='orderListDTConfig' [reload]="orderListRefresh" [searchColIndex]="orderListSearchModel.colIndex"
+      [searchText]="orderListSearchModel.searchTxt" (onMenuSelect)="onOrderTableMenuSelect($event)"></dt-table>
+  </div>
+</div>

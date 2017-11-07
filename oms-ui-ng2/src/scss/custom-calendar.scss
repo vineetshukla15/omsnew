@@ -1,0 +1,22 @@
+/** CUSTOM CALENDAR **/
+.custom-date-picker{
+  .date-picker-container{
+    position: absolute;
+    z-index: 99;
+    top: 50px;
+    right: 15px;
+    width: 265px;
+    text-align: -moz-center;
+    text-align: -webkit-center;
+  }
+  .btn-group-sm>.btn, .btn-sm {
+    padding: 5px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+  }
+}
+
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn{
+  opacity: .45;
+}

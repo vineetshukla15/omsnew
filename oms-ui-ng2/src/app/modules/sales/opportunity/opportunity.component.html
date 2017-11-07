@@ -1,0 +1,449 @@
+<alert type="success" style="position: fixed; top: 12%; width: 80%; z-index: 9999; text-align: center;" [hidden]="isAlertMessageBoxVisible">
+  <strong>{{successMessage}}</strong>
+</alert>
+<div class="panel panel-default custom-container" [hidden]="showForm">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      Opportunities
+    </div>
+    <div class="pull-right">
+      <span class="action-icon filter" (click)="(filterHeight = filterHeight ? 0 : filterSection.scrollHeight );(filters = !filters)"></span>
+      <dt-search [ddArray]="opportunitySearchTableDD" (onDTSearch)="opportunitySearchEvent($event)"></dt-search>
+    </div>
+  </div>
+  <div class="panel-body filters slideDown" [style.height]="filterHeight + 'px'" #filterSection>
+  <form [formGroup]="advanceForm" novalidate>
+      <div class="row ">
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl">
+            <input placeholder="Opportunity Name" mdInput type="text" formControlName="name" />
+          </md-input-container>
+        </div>
+        <div class="col-sm-4 col-md-4">
+          <dl>
+            <dt class="dd-label">Advertiser</dt>
+            <dd>
+              <div class="custom-multi-select-dd margin-top single-select">
+                <div class="customHeightDropdown">
+                  <ss-multiselect-dropdown [options]="advertiserOptions" [settings]="singleSelectSettings" formControlName="advertiser">
+                  </ss-multiselect-dropdown>
+                </div>
+              </div>
+            </dd>
+          </dl>
+        </div>
+        <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label">Agency</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="agencyOptions" [settings]="singleSelectSettings" formControlName="agency">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4 col-md-4">
+          <div class="custom-date-picker">
+            <md-input-container class="required" (click)="calendarBtnClick($event, 'isNewCreatedDateOpen')">
+              <input mdInput [ngModel]="advanceSearchModelOBj.searchCreatedDate | date: 'dd-MMM-yyyy'" placeholder="Requested On"
+                [readonly]="true" formControlName="startDate">
+              <button mdSuffix [mdDatepickerToggle]=""></button>
+            </md-input-container>
+            <div class="date-picker-container" *ngIf="calendarArr['isNewCreatedDateOpen']" (click)="clickOnDatepicker($event, 'isNewCreatedDateOpen')">
+              <datepicker [showWeeks]="false" [(ngModel)]="advanceSearchModelOBj.searchCreatedDate" [minDate]="currentDate" (selectionDone)="calendarArr['isNewCreatedDateOpen']=false" [ngModelOptions]="{standalone: true}"></datepicker>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-md-4">
+          <div class="custom-date-picker">
+            <md-input-container class="required" (click)="calendarBtnClick($event, 'isEndDateOpen')">
+              <input mdInput [ngModel]="advanceSearchModelOBj.searchEndDate | date: 'dd-MMM-yyyy'" placeholder="End Date"
+                [readonly]="true" formControlName="endDate">
+              <button mdSuffix [mdDatepickerToggle]=""></button>
+            </md-input-container>
+            <div class="date-picker-container" *ngIf="calendarArr['isEndDateOpen']" (click)="clickOnDatepicker($event, 'isEndDateOpen')">
+              <datepicker [showWeeks]="false" [(ngModel)]="advanceSearchModelOBj.searchEndDate" [minDate]="currentDate" (selectionDone)="calendarArr['isEndDateOpen']=false" [ngModelOptions]="{standalone: true}"></datepicker>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4 col-md-4">
+          <div class="custom-date-picker">
+            <md-input-container class="required" (click)="calendarBtnClick($event, 'isDueDateOpen')">
+              <input mdInput [ngModel]="advanceSearchModelOBj.searchDueDate | date: 'dd-MMM-yyyy'" placeholder="Due On"
+                [readonly]="true" formControlName="dueDate">
+              <button mdSuffix [mdDatepickerToggle]=""></button>
+            </md-input-container>
+            <div class="date-picker-container" *ngIf="calendarArr['isDueDateOpen']" (click)="clickOnDatepicker($event, 'isDueDateOpen')">
+              <datepicker [showWeeks]="false" [(ngModel)]="advanceSearchModelOBj.searchDueDate" [minDate]="currentDate" (selectionDone)="calendarArr['isDueDateOpen']=false" [ngModelOptions]="{standalone: true}"></datepicker>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label">Sales Category</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="salesCategoryOptions" [settings]="singleSelectSettings" formControlName="salesCategory">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      </div>
+
+      <div class="filtersFooter text-right">
+        <button type="button" class="btn btn-default">RESET</button>
+        <button type="button" class="btn btn-success" (click)="applyAdvanceFilter()">APPLY</button>
+      </div>
+    </form>
+  </div>
+  <div class="panel-body noPadding transparent-bg" *ngIf="isRegenerate">
+    <dt-table [config]='opportunityListDTConfig' [reload]="opportunityListRefresh" [searchColIndex]="opportunityListSearchModel.colIndex"
+      [searchText]="opportunityListSearchModel.searchTxt" (onMenuSelect)="onOpportunityTableMenuSelect($event)"></dt-table>
+  </div>
+</div>
+<div *ngIf="showForm" class="panel panel-default custom-container">
+  <div class="panel-heading">
+    <div class="row">
+      <div class="col-md-4 col-sm-4">
+        <div class="pull-left headingContainer">
+          <span class="heading-arrow" (click)="backToTable();"></span> Opportunity
+        </div>
+      </div>
+      <div class="col-sm-8 col-md-8">
+        <span title="Submit" class="roundCircleContent" [ngClass]="{'btn-success':!disableOpportunity, 'check-icon':!disableOpportunity, 'hide': disableOpportunity}"
+          (click)="!disableOpportunity && submitOpportunity();"><i class="fa fa-check" aria-hidden="true"></i></span>
+        <!-- <span class="roundCircleContent" [ngClass]="{'check-icon':!disableOpportunity, 'disable-span': disableOpportunity}"><i class="fa fa-plus" aria-hidden="true"></i></span> -->
+        <span title="New version" class="roundCircleContent disable-span"><i class="fa fa-plus" aria-hidden="true"></i></span>
+        <span title="Copy" class="roundCircleContent disable-span"><i class="fa fa-clone" aria-hidden="true"></i></span>
+        <dl class="w100 cust-right header-drop-down">
+          <dt class="dd-label">Version</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="versionOptions" [settings]="singleSelectSettings" [(ngModel)]="versionOptionsModel" [ngModelOptions]="{standalone: true}"
+                  [disabled]="disabledVersion || disableOpportunity" (ngModelChange)="onVersionSelect($event)">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="col-xs-12 required-error-message" *ngIf="errorMessage">{{errorMessage}}</div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl">
+          <input placeholder="Name" mdInput type="text" [(ngModel)]="newopportunity.name" [disabled]="disableOpportunity" />
+        </md-input-container>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label">Advertiser</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="advertiserOptions" [settings]="singleSelectSettings" [(ngModel)]="advertiserOptionsModel"
+                  [disabled]="disableOpportunity">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label">Agency</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="agencyOptions" [settings]="singleSelectSettings" [(ngModel)]="agencyOptionsModel" (ngModelChange)="onChange($event)"
+                  [disabled]="disableOpportunity">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl">
+          <input placeholder="Assigned By" mdInput type="text" [(ngModel)]="logedInUserFullName" [ngModelOptions]="{standalone: true}"
+            [disabled]="true" />
+        </md-input-container>
+      </div>
+      <dl class="col-sm-4 col-md-4">
+        <dt class="dd-label">Media Planner</dt>
+        <dd>
+          <div class="custom-multi-select-dd margin-top single-select">
+            <div class="customHeightDropdown">
+              <ss-multiselect-dropdown [options]="mediaPlannerOptions" [settings]="singleSelectSettings" [(ngModel)]="mediaPlannerOptionsModel"
+                [ngModelOptions]="{standalone: true}" [disabled]="disableOpportunity">
+              </ss-multiselect-dropdown>
+            </div>
+          </div>
+        </dd>
+      </dl>
+
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Trafficker</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="traffickerOptions" [settings]="singleSelectSettings" [(ngModel)]="traffickerModel" [disabled]="disableOpportunity">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label">Sales Category</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="salesCategoryOptions" [settings]="singleSelectSettings" [(ngModel)]="salesCategoryOptionsModel"
+                  [disabled]="disableOpportunity">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label">Billing Source</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="billingSourceOptions" [settings]="singleSelectSettings" [(ngModel)]="billingSourceOptionsModel"
+                  [disabled]="disableOpportunity">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel panel-default custom-container" *ngIf="showForm">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      Schedule
+    </div>
+  </div>
+  <div class="panel-body noPadding">
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <div class="custom-date-picker">
+          <md-input-container class="required" (click)="calendarBtnClick($event, 'isNewCreatedDateOpen')">
+            <input mdInput [ngModel]="newopportunity.created | date: 'dd-MMM-yyyy'" (ngModelChange)="startDateChanged($event)" placeholder="Requested On"
+              [readonly]="true" [disabled]="disableOpportunity">
+            <button mdSuffix [mdDatepickerToggle]="" [disabled]="disableOpportunity"></button>
+          </md-input-container>
+          <div class="date-picker-container" *ngIf="calendarArr['isNewCreatedDateOpen']" (click)="clickOnDatepicker($event, 'isNewCreatedDateOpen')">
+            <datepicker [showWeeks]="false" [(ngModel)]="newopportunity.created" [minDate]="currentDate" (selectionDone)="calendarArr['isNewCreatedDateOpen']=false"></datepicker>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4 col-md-4">
+        <div class="custom-date-picker">
+          <md-input-container class="required" (click)="calendarBtnClick($event, 'isDueDateOpen')">
+            <input mdInput [ngModel]="newopportunity.dueDate | date: 'dd-MMM-yyyy'" (ngModelChange)="startDateChanged($event)" placeholder="Due On"
+              [readonly]="true" [disabled]="disableOpportunity">
+            <button mdSuffix [mdDatepickerToggle]="" [disabled]="disableOpportunity"></button>
+          </md-input-container>
+          <div class="date-picker-container" *ngIf="calendarArr['isDueDateOpen']" (click)="clickOnDatepicker($event, 'isDueDateOpen')">
+            <datepicker [showWeeks]="false" [(ngModel)]="newopportunity.dueDate" [minDate]="currentDate" (selectionDone)="calendarArr['isDueDateOpen']=false"></datepicker>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <div class="custom-date-picker">
+          <md-input-container class="required" (click)="calendarBtnClick($event, 'isStartDateOpen')">
+            <input mdInput [ngModel]="newopportunity.startDate | date: 'dd-MMM-yyyy'" (ngModelChange)="startDateChanged($event)" placeholder="Start Date"
+              [readonly]="true" [disabled]="disableOpportunity">
+            <button mdSuffix [mdDatepickerToggle]="" [disabled]="disableOpportunity"></button>
+          </md-input-container>
+          <div class="date-picker-container" *ngIf="calendarArr['isStartDateOpen']" (click)="clickOnDatepicker($event, 'isStartDateOpen')">
+            <datepicker [showWeeks]="false" [(ngModel)]="newopportunity.startDate" [minDate]="currentDate" (selectionDone)="calendarArr['isStartDateOpen']=false"></datepicker>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4 col-md-4">
+        <div class="custom-date-picker">
+          <md-input-container class="required" (click)="calendarBtnClick($event, 'isEndDateOpen')" >
+            <input mdInput [ngModel]="newopportunity.endDate | date: 'dd-MMM-yyyy'" (ngModelChange)="startDateChanged($event)" placeholder="End Date"
+              [readonly]="true" [disabled]="disableOpportunity">
+            <button mdSuffix [mdDatepickerToggle]="" [disabled]="disableOpportunity"></button>
+          </md-input-container>
+          <div class="date-picker-container" *ngIf="calendarArr['isEndDateOpen']" (click)="clickOnDatepicker($event, 'isEndDateOpen')">
+            <datepicker [showWeeks]="false" [(ngModel)]="newopportunity.endDate" [minDate]="currentDate" (selectionDone)="calendarArr['isEndDateOpen']=false"></datepicker>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="panel panel-default custom-container" *ngIf="showForm">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      Financial Details
+    </div>
+  </div>
+  <div class="panel-body noPadding">
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Pricing Model</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="pricingModelOptions" [settings]="singleSelectSettings" [(ngModel)]="pricingModel" (ngModelChange)="onChange($event)"
+                  [disabled]="disableOpportunity">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl">
+          <input OnlyNumber='true' maxLimit='100' placeholder="Agency Margin (%)" mdInput type="text" [(ngModel)]="newopportunity.advertiserDiscount"
+            [ngModelOptions]="{standalone: true}" [disabled]="disabledAgencyMargin || disableOpportunity" />
+        </md-input-container>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl required">
+          <input OnlyNumber='true' placeholder="Budget" mdInput type="text" [(ngModel)]="newopportunity.budget" [ngModelOptions]="{standalone: true}"
+            [disabled]="disableOpportunity" />
+        </md-input-container>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Currency</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="currencyOptions" [settings]="singleSelectSettings" [(ngModel)]="currencyModel" [disabled]="disableOpportunity">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl required">
+          <input OnlyNumber='true' maxLimit='100' placeholder="Probability Of Close" mdInput type="number" [(ngModel)]="newopportunity.percentageOfClose"
+            [ngModelOptions]="{standalone: true}" [disabled]="disableOpportunity" />
+        </md-input-container>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="panel panel-default custom-container" *ngIf="showForm">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      DOCUMENTS
+    </div>
+    <div class="pull-right">
+      <div class="file-upload-wrapper">
+        <button type="button" class="btn btn-sm btn-default" [disabled]="disableOpportunity"><span class="fa fa-upload"></span></button>
+        <input type="file" (change)="fileChange($event)" [disabled]="disableOpportunity" [multiple]="true" placeholder="Upload file">
+      </div>
+    </div>
+  </div>
+  <div class="panel-body noPadding">
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <dt-table-clientside [config]='documentConfig' [reload]="documentListRefresh" [data]="opportunityDocument1" (onMenuSelect)="onDocumentTableChange($event)"></dt-table-clientside>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showForm" class="panel panel-default custom-container">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      <span class="heading-arrow" (click)="backToTable();"></span> NOTES
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div class="notes" *ngFor="let note of notes; let i = index;">
+          <div class="notes-body">
+            <div class="note-actions" *ngIf="editNoteIndex !== i">
+              <span class="fa fa-pencil" (click)="editNote(i, note.description);" aria-hidden="true"></span>
+              <span class="fa fa-trash" (click)="deleteNote(i);" aria-hidden="true"></span>
+            </div>
+            <p *ngIf="editNoteIndex !== i">{{note.description}}</p>
+            <md-input-container class="full-width fl" *ngIf="editNoteIndex === i ">
+              <textarea placeholder="Description" mdInput type="text" [(ngModel)]="editNoteModel.description" [ngModelOptions]="{standalone: true}"></textarea>
+            </md-input-container>
+            <div class="text-right margin-b10" *ngIf="editNoteIndex === i ">
+              <button class="btn btn-success btn-sm" (click)="saveNote(i)">Save</button>
+            </div>
+          </div>
+          <div class="notes-footer">
+            <div class="pull-right">
+              <small class="margin-r10">Sachin Tiwari</small>
+              <small>{{note.date | date : 'medium'}}</small>
+            </div>
+          </div>
+        </div>
+        <md-input-container class="full-width fl">
+          <textarea placeholder="Description" mdInput type="text" [(ngModel)]="newopportunity.description" [ngModelOptions]="{standalone: true}"
+            [disabled]="disableOpportunity"></textarea>
+        </md-input-container>
+      </div>
+      <!--     <div class="col-md-12 col-sm-12">
+        <div class="pull-right">
+          <button class="btn btn-default btn-sm" [disabled]="!newopportunity.description || disableOpportunity" (click)="!disableOpportunity && addNotes();">Add Notes</button>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <div class="panel-footer text-right">
+    <button type="button" class="btn btn-default" (click)="!disableOpportunity && resetForm()" [disabled]="disableOpportunity">RESET</button>
+    <button type="button" class="btn btn-success" (click)="!disableOpportunity && saveForm()" [disabled]="disableOpportunity">SAVE</button>
+  </div>
+</div>
+<div *ngIf="!showForm && isOpportunityCreatePermission" class="add-button">
+  <button md-fab (click)="toggleForm()"><md-icon>add</md-icon></button>
+</div>

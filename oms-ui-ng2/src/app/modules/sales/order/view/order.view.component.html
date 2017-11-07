@@ -1,0 +1,449 @@
+<alert type="success" style="position: fixed; top: 12%; width: 80%; z-index: 9999; text-align: center;" [hidden]="isAlertMessageBoxVisible">
+  <strong>{{successMessage}}</strong>
+</alert>
+<div class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading bottom-border">
+    <div>
+      <div class="row">
+        <div class="col-sm-4 col-md-4">
+          <div class="pull-left headingContainer">
+            <span class="heading-arrow" (click)="backToTable()"></span> <span *ngIf="proposalName?.length > 0">{{proposalName}}</span>
+            <span *ngIf="!proposalName">Order</span>
+            <!--<span>({{this.currentStatusName}})</span>-->
+          </div>
+        </div>
+        <div class="col-sm-8 col-md-8">
+          <span title="Approve" class="roundCircleContent hide"><i class="fa fa-check " aria-hidden="true"></i></span>
+          <span title="Reject" class="roundCircleContent hide"><i class="fa fa-times" aria-hidden="true"></i></span>
+          <span title="Admin approval" class="roundCircleContent hide"><i class="fa fa-user" aria-hidden="true"></i></span>
+          <span title="Legal approval" class="roundCircleContent hide"><i class="fa fa-link" aria-hidden="true"></i></span>
+          <span title="Pricing approval" class="roundCircleContent hide"><i class="fa fa-usd" aria-hidden="true"></i></span>
+          <span title="Archieved" class="roundCircleContent hide"><i class="fa fa-minus-circle" aria-hidden="true"></i></span>
+          <span title="Inprogress" class="roundCircleContent hide"><i class="fa fa-hourglass-1" aria-hidden="true"></i></span>
+          <span title="Copy" class="roundCircleContent hide"><i class="fa fa-clone" aria-hidden="true"></i></span>
+          <!--<dl class="w100 cust-right header-drop-down">
+            <button type="button" [disabled]="!isGoBtnEnable" class="btn btn-success" (click)="isGoBtnEnable ? saveForm() : ''">Go</button>
+          </dl>
+          <dl class="w200 cust-right header-drop-down">
+            <dt class="dd-label">Assigned To</dt>
+            <dd>
+              <div class="custom-multi-select-dd margin-top single-select">
+                <div class="customHeightDropdown">
+                  <div class="custom-multi-select-dd margin-top">
+                    <div class="btn-group fullWidDrop dropdown" dropdown>
+                      <button dropdownToggle type="button" class="btn dropdown-toggle">
+                        {{assignToDisplayName}}  <span class="caret"></span>
+                      </button>
+                      <ul *dropdownMenu class="custom-ms-dd w-heading dropdown-menu" role="menu">
+                        <div>
+                          <span *ngFor='let key of keysGetter(assignToOptions || [])'>
+                                <div class="select-dd-heading"> {{key || 'Unknown Role'}}</div>
+                                <li role="menuitem" *ngFor='let data of assignToOptions[key]' [ngClass]="{'selected': selectedId == data.id}">
+                                  <a class="dropdown-item" href="javascript:void(0);" (click)= "typeOptionsChange(data)">
+                                    <div class="select-options normal-font-weight">
+                                      <div >{{data.firstName + ' '+ data.lastName}}</div>
+                                    </div>
+                                  </a>
+                                </li>
+                           </span>
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </dd>
+          </dl>-->
+          <!-- <dl class="w200 cust-right header-drop-down low-zindex">
+            Status : {{this.currentStatusName}} ({{this.previousStatus}})
+          </dl> -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      Order Details
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="col-xs-12 required-error-message" *ngIf="errorMessage">{{errorMessage}}</div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl required">
+          <input mdInput type="text" placeholder="Name" [(ngModel)]="newOrder.name" [disabled]="disable" />
+        </md-input-container>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label">Advertiser</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select disabled">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="advertiserOptions" [settings]="singleSelectSettings" [(ngModel)]="advertiserModel" [disabled]="disable">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Trafficker</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select disabled">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="traffickerOptions" [settings]="singleSelectSettings" [(ngModel)]="traffickerModel" [disabled]="disable">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+
+      <!--<div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label">Agency</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select disabled">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="agencyOptions" [settings]="singleSelectSettings" [(ngModel)]="agencyModel" [disabled]="disable">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+  
+
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl">
+          <input placeholder="Assigned By" mdInput type="text" [(ngModel)]="assignedBy" [ngModelOptions]="{standalone: true}" [disabled]="true"
+          />
+        </md-input-container>
+      </div>
+
+      <dl class="col-sm-4 col-md-4">
+        <dt class="dd-label">Media Planner</dt>
+        <dd>
+          <div class="custom-multi-select-dd margin-top single-select disabled">
+            <div class="customHeightDropdown">
+              <ss-multiselect-dropdown [options]="mediaPlannerOptions" [settings]="singleSelectSettings" [(ngModel)]="mediaPlannerOptionsModel"
+                [ngModelOptions]="{standalone: true}" [disabled]="disable">
+              </ss-multiselect-dropdown>
+            </div>
+          </div>
+        </dd>
+      </dl>
+
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Trafficker</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select disabled">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="traffickerOptions" [settings]="singleSelectSettings" [(ngModel)]="traffickerModel" [disabled]="disable">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label">Sales Category</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select disabled">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="saleCategoryOptions" [settings]="singleSelectSettings" [(ngModel)]="saleCategoryModel"
+                  [disabled]="disable">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="panel panel-default custom-container hs-acc noBottomMargin noBottomRadius">
+      <div class="panel-heading med-heading">
+        <div class="pull-left headingContainer">
+          Schedule
+        </div>
+        <span title="expand" class="roundCircleContent" (click)="showSchedule=!showSchedule"><i *ngIf="!showSchedule" class="fa fa-plus" aria-hidden="true"></i><i *ngIf="showSchedule" class="fa fa-minus" aria-hidden="true"></i></span>
+      </div>
+      <div *ngIf="showSchedule" class="panel-body">
+        <div class="row">
+          <div class="col-sm-4 col-md-4">
+            <div class="custom-date-picker">
+              <md-input-container class="required">
+                <input mdInput [ngModel]="newProposal.created | date: 'dd-MMM-yyyy'" (ngModelChange)="dueDateChanged($event)" placeholder="Requested On"
+                  [disabled]="disable">
+
+              </md-input-container>
+            </div>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <div class="custom-date-picker">
+              <md-input-container class="required">
+                <input mdInput [ngModel]="newProposal.dueDate | date: 'dd-MMM-yyyy'" (ngModelChange)="dueDateChanged($event)" placeholder="Due On"
+                  [disabled]="disable">
+              </md-input-container>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 col-md-4">
+            <div class="custom-date-picker">
+              <md-input-container class="required">
+                <input mdInput [ngModel]="newProposal.startDate | date: 'dd-MMM-yyyy'" (ngModelChange)="dueDateChanged($event)" placeholder="Start Date"
+                  [disabled]="disable">
+              </md-input-container>
+            </div>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <div class="custom-date-picker">
+              <md-input-container class="required">
+                <input mdInput [ngModel]="newProposal.endDate | date: 'dd-MMM-yyyy'" (ngModelChange)="dueDateChanged($event)" placeholder="Due Date"
+                  [disabled]="disable">
+              </md-input-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-default custom-container hs-acc noBottomMargin noBottomRadius">
+      <div class="panel-heading med-heading">
+        <div class="pull-left headingContainer">
+          Financial Details
+        </div>
+        <span title="expand" class="roundCircleContent" (click)="showFinancialDetails=!showFinancialDetails"><i *ngIf="!showFinancialDetails" class="fa fa-plus" aria-hidden="true"></i><i *ngIf="showFinancialDetails" class="fa fa-minus" aria-hidden="true"></i></span>
+      </div>
+      <div *ngIf="showFinancialDetails" class="panel-body">
+        <div class="row">
+          <div class="col-sm-4 col-md-4">
+            <dl>
+              <dt class="dd-label required">Pricing Model</dt>
+              <dd>
+                <div class="custom-multi-select-dd margin-top single-select disabled">
+                  <div class="customHeightDropdown">
+                    <ss-multiselect-dropdown [options]="pricingModelOptions" [settings]="singleSelectSettings" [(ngModel)]="pricingModel" [disabled]="disable">
+                    </ss-multiselect-dropdown>
+                  </div>
+                </div>
+              </dd>
+            </dl>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input placeholder="Agency Margin (%)" mdInput type="text" [(ngModel)]="newProposal.agencyMargin" [ngModelOptions]="{standalone: true}"
+                [disabled]="disable" />
+            </md-input-container>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl required">
+              <input mdInput type="number" placeholder="Budget" [(ngModel)]="newProposal.budget" [disabled]="disable" />
+            </md-input-container>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input mdInput type="number" placeholder="Advertiser Discount" [(ngModel)]="newProposal.advertiserDiscount" [disabled]="disable"
+              />
+            </md-input-container>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input mdInput type="number" placeholder="Proposal Discount" [(ngModel)]="newProposal.proposalDiscount" [disabled]="disable"
+              />
+            </md-input-container>
+          </div>
+
+          <div class="col-sm-4 col-md-4">
+            <dl>
+              <dt class="dd-label required">Currency</dt>
+              <dd>
+                <div class="custom-multi-select-dd margin-top single-select disabled">
+                  <div class="customHeightDropdown">
+                    <ss-multiselect-dropdown [options]="currencyOptions" [settings]="singleSelectSettings" [(ngModel)]="currrencyModel" [disabled]="disable">
+                    </ss-multiselect-dropdown>
+                  </div>
+                </div>
+              </dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl required">
+              <input mdInput type="number" placeholder="Probability of close" [(ngModel)]="newProposal.percentageOfClose" [disabled]="disable"
+              />
+            </md-input-container>
+          </div>
+
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input mdInput type="number" placeholder="Proposal Cost" [(ngModel)]="newProposal.proposalCost" min=0 [disabled]="disable"
+              />
+            </md-input-container>
+          </div>
+
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input mdInput type="number" placeholder="Remaining Cost" [(ngModel)]="remainingCost" min=0 [disabled]="disable" />
+            </md-input-container>
+          </div>
+        </div>
+      </div>
+    </div>-->
+  </div>
+</div>
+<div class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      LINE ITEMS
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <dt-table-clientside [config]='lineItemConfig' [data]="newOrder.lineItems" [reload]="lineItemRefresh" (onMenuSelect)="onProposalTableMenuSelect($event)"></dt-table-clientside>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<div class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      DOCUMENTS
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+
+      <div class="col-sm-12 col-md-12">
+        <dt-table-clientside [config]='documentConfig' [data]="proposalDocument1"></dt-table-clientside>
+      </div>
+    </div>
+    <div class="row">
+
+    </div>
+  </div>
+</div>-->
+
+<!--<div class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      AUDIT
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <!-- <md-input-container class="full-width fl required">
+          <input mdInput type="text" placeholder="Description" [(ngModel)]="newProposal.notes" [disabled]="disable" />
+        </md-input-container> --
+
+        <table class="table table-hover table-condensed audit">
+          <thead>
+            <tr>
+              <th class="col-md-3">User Name</th>
+              <th class="col-md-6">Action</th>
+              <th class="col-md-3">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor=" let audit of auditObj">
+              <td>{{audit.userId.firstName + ' ' + audit.userId.lastName}}</td>
+              <td>{{audit.action}}</td>
+              <td>{{audit.endDate | date:'dd/MM/yyyy'}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>-->
+
+<div class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      NOTES
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <md-input-container class="full-width fl">
+          <input mdInput type="text" placeholder="Description" [(ngModel)]="newOrder.notes" />
+        </md-input-container>
+      </div>
+    </div>
+  </div>
+  <div class="panel-footer text-right">
+    <!--<button type="button" class="btn btn-default" (click)="!proposalSold && resetForm()" [disabled]="proposalSold">RESET</button>
+    <button type="button" class="btn btn-success" [disabled]="proposalSold" (click)="!proposalSold && saveForm()">SAVE</button>-->
+    <button type="button" class="btn btn-default" (click)="!proposalSold && resetForm()" [disabled]="proposalSold">RESET</button>
+    <button type="button" class="btn btn-success" [disabled]="proposalSold" (click)="!proposalSold && saveForm()">SAVE</button>
+  </div>
+</div>
+
+<!-- <div class="panel panel-default custom-container">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      <span class="heading-arrow" (click)="backToTable();"></span> COMMENTS
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div class="notes" *ngFor="let note of notes; let i = index;">
+          <div class="notes-body">
+            <div class="note-actions" *ngIf="editNoteIndex !== i">
+              <span class="fa fa-pencil" (click)="editNote(i, note.description);" aria-hidden="true"></span>
+              <span class="fa fa-trash" (click)="deleteNote(i);" aria-hidden="true"></span>
+            </div>
+            <p *ngIf="editNoteIndex !== i">{{note.description}}</p>
+            <md-input-container class="full-width fl" *ngIf="editNoteIndex === i ">
+              <textarea placeholder="Description" mdInput type="text" [(ngModel)]="editNoteModel.description" [ngModelOptions]="{standalone: true}"></textarea>
+            </md-input-container>
+            <div class="text-right margin-b10" *ngIf="editNoteIndex === i ">
+              <button class="btn btn-success btn-sm" (click)="saveNote(i)">Save</button>
+            </div>
+          </div>
+          <div class="notes-footer">
+            <div class="pull-right">
+              <small class="margin-r10">User Name</small>
+              <small>{{note.date | date : 'medium'}}</small>
+            </div>
+          </div>
+        </div>
+        <md-input-container class="full-width fl">
+          <textarea placeholder="Description" mdInput type="text" [(ngModel)]="newProposal.notes" [ngModelOptions]="{standalone: true}"
+            [disabled]="proposalSold"></textarea>
+        </md-input-container>
+      </div>
+      <div class="col-md-12 col-sm-12">
+        <div class="pull-right">
+          <button class="btn btn-default btn-sm" disabled="!newProposal.notes" (click)="addNotes();">Add Notes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-footer text-right">
+    <button type="button" class="btn btn-default" (click)="!proposalSold && resetForm()" [disabled]="proposalSold">RESET</button>
+    <button type="button" class="btn btn-success" [disabled]="proposalSold" (click)="!proposalSold && saveForm()">SAVE</button>
+  </div>
+</div> -->

@@ -1,0 +1,89 @@
+<div class="panel panel-default custom-container" *ngIf="!showForm">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      Contacts
+    </div>
+    <div class="pull-right">
+      <dt-search [ddArray]="contactSearchTableDD" (onDTSearch)="contactSearchEvent($event)"></dt-search>
+    </div>
+  </div>
+  <div class="panel-body noPadding transparent-bg">
+    <dt-table [config]='contactListDTConfig' [reload]="contactListRefresh" [searchColIndex]="contactListSearchModel.colIndex"
+      [searchText]="contactListSearchModel.searchTxt" (onMenuSelect)="onContactTableMenuSelect($event)"></dt-table>
+  </div>
+</div>
+
+
+
+<div *ngIf="showForm" class="panel panel-default custom-container">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      <span class="heading-arrow" (click)="backToTable();"></span> Contacts
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="col-xs-12 required-error-message" *ngIf="errorMessage">{{errorMessage}}</div>
+    <form [formGroup]="contactForm">
+      <div class="row">
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl required" [ngClass]="{'has-error':!contactForm.controls['contactName'].valid}">
+            <input placeholder="Name" formControlName="contactName" mdInput type="text" (click)="removeValidators(contactForm.controls['contactName'],false)"
+              [(ngModel)]="newContact.contactName" [formControl]="contactForm.controls['contactName']" />
+
+          </md-input-container>
+        </div>
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl required" [ngClass]="{'has-error':!contactForm.controls['contactEmail'].valid}">
+            <input type="text" placeholder="Email" formControlName="contactEmail" mdInput [(ngModel)]="newContact.contactEmail" (click)="removeValidators(contactForm.controls['contactEmail'],false)"
+              [formControl]="contactForm.controls['contactEmail']" />
+
+          </md-input-container>
+        </div>
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl">
+            <input placeholder="Address" mdInput type="text" formControlName="contactAddress" [(ngModel)]="newContact.contactAddress" />
+
+          </md-input-container>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl">
+            <input placeholder="Mobile" mdInput type="text" maxlength="10" formControlName="contactMobile" [(ngModel)]="newContact.contactMobile" />
+          </md-input-container>
+        </div>
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl">
+            <input placeholder="Phone" mdInput type="text" maxlength="10" formControlName="contactPhone" [(ngModel)]="newContact.contactPhone" />
+
+          </md-input-container>
+        </div>
+
+        <div class="col-sm-4 col-md-4">
+          <dl>
+            <dt class="dd-label required">Company</dt>
+            <dd>
+              <div class="custom-multi-select-dd margin-top single-select">
+                <div class="customHeightDropdown" [ngClass]="{'has-error':!contactForm.controls['company'].valid}">
+                  <ss-multiselect-dropdown [options]="comapanyOptions" [settings]="singleSelectSettings" [(ngModel)]="companyOptionsModel"
+                    name="company" formControlName="company" (click)="removeValidators(contactForm.controls['company'],false)">
+                  </ss-multiselect-dropdown>
+                </div>
+              </div>
+            </dd>
+          </dl>
+        </div>
+
+      </div>
+    </form>
+  </div>
+  <div class="panel-footer text-right">
+    <button type="button" class="btn btn-default" (click)="resetForm()">RESET</button>
+    <button type="button" class="btn btn-success" (click)="saveForm(contactForm)">SAVE</button>
+  </div>
+</div>
+<div *ngIf="!showForm && isContactCreatePermission" class="add-button">
+  <button md-fab (click)="toggleForm()"><md-icon>add</md-icon></button>
+</div>

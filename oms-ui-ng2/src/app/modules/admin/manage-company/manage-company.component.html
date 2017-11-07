@@ -1,0 +1,83 @@
+<div class="panel panel-default custom-container" *ngIf="!showForm">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      Companies
+    </div>
+    <div class="pull-right">
+      <dt-search [ddArray]="comapanySearchTableDD" (onDTSearch)="companySearchEvent($event)"></dt-search>
+    </div>
+  </div>
+  <div class="panel-body noPadding transparent-bg">
+    <dt-table [config]='companyListDTConfig' [reload]="companyListRefresh" [searchColIndex]="companyListSearchModel.colIndex"
+      [searchText]="companyListSearchModel.searchTxt" (onMenuSelect)="onCompanyTableMenuSelect($event)"></dt-table>
+  </div>
+</div>
+
+<div *ngIf="showForm" class="panel panel-default custom-container">
+  <form #form="ngForm">
+    <div class="panel-heading">
+      <div class="pull-left headingContainer">
+        <span class="heading-arrow" (click)="backToTable();"></span> Company
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="col-xs-12 required-error-message" *ngIf="errorMessage">{{errorMessage}}</div>
+      <div class="row">
+        <div class="col-sm-4 col-md-4 required">
+          <!--<md-input-container [ngClass]="{'has-error': name.invalid && name.touched && name.dirty}">-->
+          <md-input-container class="full-width fl ">
+            <input (keypress)="keypressEventHandler($event)" placeholder="Name" mdInput type="text" [(ngModel)]="newCompany.name" #name="ngModel" name="name" required/>
+          </md-input-container>
+          <!--<span class="required-error-message" *ngIf="name.invalid && name.touched && name.dirty">Name is required</span>-->
+        </div>
+
+        <div class="col-sm-4 col-md-4">
+          <dl>
+            <dt class="dd-label required">Type</dt>
+            <dd>
+              <div class="custom-multi-select-dd margin-top single-select">
+                <div class="customHeightDropdown">
+                  <ss-multiselect-dropdown #type="ngModel" required name="type" [options]="comapanyTypeOptions" [settings]="singleSelectSettings"
+                    [(ngModel)]="companyTypeOptionsModel">
+                  </ss-multiselect-dropdown>
+                </div>
+              </div>
+            </dd>
+          </dl>
+        </div>
+
+        <div class="col-sm-4 col-md-4">
+          <dl>
+            <dt class="dd-label required">Status</dt>
+            <dd>
+              <div class="custom-multi-select-dd margin-top single-select">
+                <div class="customHeightDropdown">
+                  <ss-multiselect-dropdown required [options]="comapanyOptions" [settings]="singleSelectSettings" [(ngModel)]="companyOptionsModel"
+                    #status="ngModel" name="status" required>
+                  </ss-multiselect-dropdown>
+                </div>
+              </div>
+            </dd>
+          </dl>
+        </div>
+
+
+      </div>
+      <div class="row">
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl">
+            <input placeholder="Address" mdInput type="text" [(ngModel)]="newCompany.address" #address="ngModel" name="address" />
+          </md-input-container>
+        </div>
+      </div>
+
+    </div>
+    <div class="panel-footer text-right">
+      <button type="button" class="btn btn-default" (click)="resetForm()">RESET</button>
+      <button type="button" class="btn btn-success" [disabled]="form.invalid" (click)="saveForm()">SAVE</button>
+    </div>
+  </form>
+</div>
+<div *ngIf="!showForm && isCompanyCreatePermission" class="add-button">
+  <button md-fab (click)="toggleForm()"><md-icon>add</md-icon></button>
+</div>

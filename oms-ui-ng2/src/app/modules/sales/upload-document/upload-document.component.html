@@ -1,0 +1,30 @@
+<div class="panel panel-default custom-container upload-dialog">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      Add Document
+    </div>
+  </div>
+  <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-6 col-md-6">
+          <md-input-container class="full-width fl">
+            <input placeholder="Purpose" [(ngModel)]="uploadObject.purpose" mdInput type="text"/>
+          </md-input-container>
+        </div>
+        <div class="col-sm-6 col-md-6">
+          <md-input-container class="full-width fl">
+            <input placeholder="Version" [(ngModel)]="uploadObject.version" mdInput type="text"/>
+          </md-input-container>
+        </div>
+        <div class="col-sm-12 col-md-12">
+            <input placeholder="Browse..."(change)="fileChange($event)"  type="file" [(ngModel)]="uploadObject.file"  [multiple]="true" accept=".pdf,.doc,.docx"/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 text-right">
+          <button type="button" class="btn btn-sm btn-default  default-border-color browse-btn">CANCEL</button>
+          <button type="button" class="btn btn-sm btn-default btn-success default-border-color save-btn"(click)="formSaved()">SAVE</button>
+        </div>
+      </div>
+  </div>
+</div>

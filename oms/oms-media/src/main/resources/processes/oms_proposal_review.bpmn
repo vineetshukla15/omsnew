@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="oms_proposal_review" name="My process" isExecutable="true">
+    <startEvent id="omsproposalstartevent" name="Start"></startEvent>
+    <userTask id="mpreviewtask" name="Media Planner Review" activiti:assignee="${proposalServiceImpl.getProposalAssignee(execution)}"></userTask>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow4" sourceRef="mpreviewtask" targetRef="exclusivegateway1"></sequenceFlow>
+    <userTask id="reviewproposaltask" name="Pricing Review" activiti:candidateUsers="${proposalServiceImpl.getProposalPriceAdmins(execution)}"></userTask>
+    <serviceTask id="reviewservicetask" name="Review Service" activiti:expression="${proposalServiceImpl.proposalStatusUpdate(execution)}"></serviceTask>
+    <sequenceFlow id="flow5" sourceRef="exclusivegateway1" targetRef="proposalPriceReviewTask">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action == true}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow6" sourceRef="reviewproposaltask" targetRef="reviewservicetask"></sequenceFlow>
+    <sequenceFlow id="flow7" sourceRef="reviewservicetask" targetRef="mpreviewtask"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
+    <serviceTask id="proposalPriceReviewTask" name="Proposal Price Review Service" activiti:expression="${proposalServiceImpl.proposalStatusUpdate(execution)}"></serviceTask>
+    <sequenceFlow id="flow14" sourceRef="proposalPriceReviewTask" targetRef="reviewproposaltask"></sequenceFlow>
+    <serviceTask id="rejectedByAdminTask" name="Rejected" activiti:expression="${proposalServiceImpl.proposalStatusUpdate(execution)}"></serviceTask>
+    <sequenceFlow id="flow16" sourceRef="exclusivegateway2" targetRef="rejectedByAdminTask">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action == false}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow19" sourceRef="rejectedByAdminTask" targetRef="mpreviewtask"></sequenceFlow>
+    <serviceTask id="proposalApprovedTask" name="Approved" activiti:expression="${proposalServiceImpl.proposalApproved(execution)}"></serviceTask>
+    <sequenceFlow id="flow20" sourceRef="exclusivegateway2" targetRef="proposalApprovedTask">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action == true}]]></conditionExpression>
+    </sequenceFlow>
+    <endEvent id="omsProposalEndEvent" name="ProcessEnd" activiti:async="true" activiti:exclusive="false"></endEvent>
+    <sequenceFlow id="flow21" sourceRef="proposalApprovedTask" targetRef="omsProposalEndEvent"></sequenceFlow>
+    <serviceTask id="adminReviewTask" name="Admin review Service" activiti:expression="${proposalServiceImpl.proposalStatusUpdate(execution)}"></serviceTask>
+    <sequenceFlow id="flow24" sourceRef="exclusivegateway1" targetRef="adminReviewTask">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action == false}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask id="adminReview" name="Admin Review" activiti:candidateUsers="${proposalServiceImpl.getProposalAdmins()}"></userTask>
+    <sequenceFlow id="flow25" sourceRef="adminReviewTask" targetRef="adminReview"></sequenceFlow>
+    <sequenceFlow id="flow26" sourceRef="adminReview" targetRef="exclusivegateway2"></sequenceFlow>
+    <serviceTask id="servicetask1" name="In Progress" activiti:expression="${proposalServiceImpl.proposalStatusUpdate(execution)}"></serviceTask>
+    <sequenceFlow id="flow27" sourceRef="omsproposalstartevent" targetRef="servicetask1"></sequenceFlow>
+    <sequenceFlow id="flow28" sourceRef="servicetask1" targetRef="mpreviewtask"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_oms_proposal_review">
+    <bpmndi:BPMNPlane bpmnElement="oms_proposal_review" id="BPMNPlane_oms_proposal_review">
+      <bpmndi:BPMNShape bpmnElement="omsproposalstartevent" id="BPMNShape_omsproposalstartevent">
+        <omgdc:Bounds height="35.0" width="35.0" x="370.0" y="240.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="mpreviewtask" id="BPMNShape_mpreviewtask">
+        <omgdc:Bounds height="55.0" width="105.0" x="720.0" y="230.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="864.0" y="237.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="reviewproposaltask" id="BPMNShape_reviewproposaltask">
+        <omgdc:Bounds height="59.0" width="112.0" x="951.0" y="70.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="reviewservicetask" id="BPMNShape_reviewservicetask">
+        <omgdc:Bounds height="69.0" width="109.0" x="796.0" y="65.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway2" id="BPMNShape_exclusivegateway2">
+        <omgdc:Bounds height="40.0" width="40.0" x="1252.0" y="281.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="proposalPriceReviewTask" id="BPMNShape_proposalPriceReviewTask">
+        <omgdc:Bounds height="71.0" width="131.0" x="941.0" y="146.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="rejectedByAdminTask" id="BPMNShape_rejectedByAdminTask">
+        <omgdc:Bounds height="55.0" width="105.0" x="720.0" y="354.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="proposalApprovedTask" id="BPMNShape_proposalApprovedTask">
+        <omgdc:Bounds height="55.0" width="106.0" x="1330.0" y="274.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="omsProposalEndEvent" id="BPMNShape_omsProposalEndEvent">
+        <omgdc:Bounds height="35.0" width="35.0" x="1470.0" y="284.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="adminReviewTask" id="BPMNShape_adminReviewTask">
+        <omgdc:Bounds height="63.0" width="120.0" x="951.0" y="274.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="adminReview" id="BPMNShape_adminReview">
+        <omgdc:Bounds height="55.0" width="105.0" x="1120.0" y="278.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask1" id="BPMNShape_servicetask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="520.0" y="230.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="825.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="864.0" y="257.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="884.0" y="237.0"></omgdi:waypoint>
+        <omgdi:waypoint x="883.0" y="185.0"></omgdi:waypoint>
+        <omgdi:waypoint x="941.0" y="181.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="951.0" y="99.0"></omgdi:waypoint>
+        <omgdi:waypoint x="905.0" y="99.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="796.0" y="99.0"></omgdi:waypoint>
+        <omgdi:waypoint x="772.0" y="101.0"></omgdi:waypoint>
+        <omgdi:waypoint x="772.0" y="230.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
+        <omgdi:waypoint x="1006.0" y="146.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1007.0" y="129.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow16" id="BPMNEdge_flow16">
+        <omgdi:waypoint x="1272.0" y="321.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1270.0" y="381.0"></omgdi:waypoint>
+        <omgdi:waypoint x="825.0" y="381.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow19" id="BPMNEdge_flow19">
+        <omgdi:waypoint x="772.0" y="354.0"></omgdi:waypoint>
+        <omgdi:waypoint x="772.0" y="327.0"></omgdi:waypoint>
+        <omgdi:waypoint x="772.0" y="285.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow20" id="BPMNEdge_flow20">
+        <omgdi:waypoint x="1292.0" y="301.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1330.0" y="301.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow21" id="BPMNEdge_flow21">
+        <omgdi:waypoint x="1436.0" y="301.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1470.0" y="301.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow24" id="BPMNEdge_flow24">
+        <omgdi:waypoint x="884.0" y="277.0"></omgdi:waypoint>
+        <omgdi:waypoint x="884.0" y="305.0"></omgdi:waypoint>
+        <omgdi:waypoint x="951.0" y="305.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow25" id="BPMNEdge_flow25">
+        <omgdi:waypoint x="1071.0" y="305.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1120.0" y="305.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow26" id="BPMNEdge_flow26">
+        <omgdi:waypoint x="1225.0" y="305.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1252.0" y="301.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow27" id="BPMNEdge_flow27">
+        <omgdi:waypoint x="405.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="520.0" y="257.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow28" id="BPMNEdge_flow28">
+        <omgdi:waypoint x="625.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="720.0" y="257.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

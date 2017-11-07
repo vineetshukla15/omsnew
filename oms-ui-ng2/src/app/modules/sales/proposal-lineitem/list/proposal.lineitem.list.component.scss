@@ -1,0 +1,57 @@
+
+.checkbox-active{
+  margin-top: 5px;
+}
+.link-show{
+  a{
+    color: #36A0F4;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+}
+.roundCircleContent {
+    border: 1px solid;
+    padding: 12px;
+    border-radius: 49px;
+    display: table;
+    float: right;
+    margin-right: 10px;
+    cursor: pointer;
+    i {
+      display: table-cell;
+    vertical-align: middle;
+    font-size: 14px;
+    width: 14px;
+    text-align: center;
+    }
+}
+.w100{
+width: 100px;
+    display: inline-block;
+}
+.w200{
+width: 200px;
+    display: inline-block;
+}
+.cust-right {
+  float: right;
+    margin-right: 10px;
+    position: relative;
+  .dd-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #bdbdbd;
+    top: -10px;
+    left: 0px;
+    padding: 0;
+    position: absolute;
+}
+}
+.table-inline-a a {
+  color: #333;
+}
+
+
+
+
+

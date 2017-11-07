@@ -1,0 +1,15 @@
+.formTitle {
+    text-transform:uppercase;
+}
+.formInputFields  {
+    .description {
+        input[type=text]{
+            width: 87.5%;
+            max-width: 100%;
+            border-radius: 5px;
+            border: 1px solid #e1e1e1;
+            background-color: #f7f7f7;
+            height: 135px;
+        }
+    }    
+}

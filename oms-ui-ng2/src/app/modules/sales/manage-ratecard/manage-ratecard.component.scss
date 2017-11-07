@@ -1,0 +1,40 @@
+.checkbox-active{
+  margin-top: 5px;
+}
+.text-center{
+  text-align: center;
+}
+.text-right{
+  text-align: right;
+}
+
+.required-error-message{
+    width: 100%;
+    text-align: center;
+    padding: 6px;
+    border-radius: 2px;
+    margin-top: 3px;
+    background-color: #FFE2E2;
+    color: #FF0000;
+    font-size: 14px;
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+
+
+.custom-container {
+   .panel-footer{
+    padding: 10px 10px 40px;
+    .add-more{
+        border: 1px solid #333 !important;
+        border-color: #000 !important;
+        font-weight: 700 !important;
+        padding: 5px 10px !important;
+        font-size: 12px !important;
+        line-height: 1.5 !important;
+        border-radius: 3px !important;
+        color: #333 !important;
+      }
+    }
+}

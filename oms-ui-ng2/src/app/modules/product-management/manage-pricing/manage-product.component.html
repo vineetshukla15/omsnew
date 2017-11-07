@@ -1,0 +1,119 @@
+<!--<div class="customTable">
+  <div class="menu-search">
+    <i class="fa fa-search" aria-hidden="true"></i>
+    <input name="search" placeholder="Search" type="text" [(ngModel)]="productTableSearch" (ngModelChange)="onProductTableSearch($event,productSearchSelectedDD['colIndex']);"
+    />
+    <div class="custom-dropdown" dropdown>
+      <button dropdownToggle type="button" class=" dropdown-toggle">
+        <span class="but-text">{{productSearchSelectedDD["labelName"]}}</span><span class="caret"></span>
+      </button>
+      <ul *dropdownMenu class="dropdown-menu" role="menu">
+        <li role="menuitem" *ngFor="let item of productSearchTableDD">
+          <a class="dropdown-item" href="javaScript:void(0);" (click)="onProductTableSearchDD(item);">
+            {{item.labelName}}
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <button type="button" class="btn btn-custom" (click)="showAddNewProductForm()">+ ADD NEW</button>
+
+  </div>
+  <div class="dt-container">
+    <img [ngClass]="{'showDT': !isProductDataLoaded,'hideDT': isProductDataLoaded}" class="loader" src="./assets/images/data-table/loader.gif"
+    />
+    <div [ngClass]="{'showDT': isProductDataLoaded,'hideDT': !isProductDataLoaded}">
+      <table id="productTable" class="row-border hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>AdUnit</th>
+            <th>Creative</th>
+            <th>Rate Type</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of productList">
+            <td>{{ product.name }}</td>
+            <td>{{product.productType.typeName}}</td>
+            <td> <select>
+                      <option *ngFor="let adUnit of product.adUnits">
+                         {{adUnit.name}}
+                      </option>
+                    </select></td>
+            <td> <select>
+                      <option *ngFor="let creative of product.creatives">
+                         {{creative.name}}
+                      </option>
+                    </select></td>
+            <td>{{product.rateType.name}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<form #form="ngForm" (ngSubmit)="onSubmit()" class="form-horizontal" *ngIf="showingAddSection">
+  <div class="formSection col-sm-12 noPadding">
+    <div class="formHeader col-xs-12">
+      <div class="formTitle col-sm-12">Product Detail</div>
+    </div>
+    <div class="formInputFields col-sm-12 noPadding">
+      <div class="col-sm-4">
+        <div class="fieldTitle">Name</div>
+        <div class="fieldInput"><input type="text" [(ngModel)]="newProduct.name" [ngModelOptions]="{standalone: true}" /></div>
+      </div>
+      <div class="col-sm-4">
+        <div class="fieldTitle">AdUnit</div>
+        <div class="fieldInput">
+          <select>
+                      <option value="">First</option>
+                      <option value="">Second</option>
+                      <option value="">Third</option>
+                    </select>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="fieldTitle">Rate Type</div>
+        <div class="fieldInput">
+          <select>
+                      <option value="">First</option>
+                      <option value="">Second</option>
+                      <option value="">Third</option>
+                    </select>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="fieldTitle">Type</div>
+        <div class="fieldInput">
+          <select>
+                      <option value="">First</option>
+                      <option value="">Second</option>
+                      <option value="">Third</option>
+                    </select>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="fieldTitle">Creatives</div>
+        <div class="fieldInput">
+          <select>
+                      <option *ngFor="let creative of creativeList" value= {{creative.creativeID}}>
+                         {{creative.name}}
+                      </option>
+                    </select>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="fieldTitle">Description</div>
+        <div class="fieldInput description"><input type="text" [(ngModel)]="newProduct.name" [ngModelOptions]="{standalone: true}" /></div>
+      </div>
+    </div>
+    <div class="formButtons col-sm-12">
+      <input type="submit" value="Save" (click)="saveForm()">
+      <input type="reset" value="Reset" (click)="resetForm()">
+    </div>
+  </div>
+</form>-->

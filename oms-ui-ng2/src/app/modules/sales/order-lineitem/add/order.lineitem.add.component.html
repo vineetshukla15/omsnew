@@ -1,0 +1,270 @@
+<alert type="success" style="position: fixed; top: 12%; width: 80%; z-index: 9999; text-align: center;" [hidden]="isMessageBoxHidden">
+  <strong>{{successMessage}}</strong>
+</alert>
+
+<div class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      <span class="heading-arrow" (click)="backToTable()"></span> <span *ngIf="lineItemName?.length > 0">{{lineItemName}}</span>
+      <span *ngIf="!lineItemName">Add New Order Line Item</span>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="col-xs-12 required-error-message" *ngIf="errorMessage">{{errorMessage}}</div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl required">
+          <!--<input mdInput type="text" [(ngModel)]="currentLineItem.name" [disabled]=true placeholder="Line Item Nameeeeeeee" (click)="removeValidators(lineitemForm.controls['name'],false)"
+              [formControl]="lineitemForm.controls['name']"/>-->
+          <input mdInput type="text" [(ngModel)]="currentLineItem.name" [disabled]=true placeholder="Line Item Name" />
+        </md-input-container>
+
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Product</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="productOptions" [settings]="singleSelectSettings" [(ngModel)]="productOptionsModel" (ngModelChange)="onProductChange($event)"
+                  [disabled]=true>
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Ad Units</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top">
+              <div>
+                <ss-multiselect-dropdown [options]="adUnitOptions" [texts]="textSetting" [settings]="multiSelectSelectSettings" [(ngModel)]="adUnitOptionsModel"
+                  [disabled]="disabledFormElements">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <div class="custom-date-picker">
+          <md-input-container class="required">
+            <input mdInput *ngIf="!currentLineItem['isNewProposalLineItemStartDateOpen']" [value]="currentLineItem.flightStartdate | date: 'dd-MMM-yyyy'"
+              placeholder="Start Date" [disabled]=true>
+          </md-input-container>
+        </div>
+
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <div class="custom-date-picker">
+          <md-input-container class="required">
+            <input mdInput *ngIf="!currentLineItem['isNewProposalLineItemEndDateOpen']" [value]="currentLineItem.flightEndDate | date: 'dd-MMM-yyyy'"
+              placeholder="End Date" [disabled]=true>
+          </md-input-container>
+        </div>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Creatives</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="cretiveOptions" [settings]="singleSelectSettings" [(ngModel)]="cretiveOptionsModel">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      Targeting
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-6 col-md-6">
+        <dl>
+          <dt class="dd-label">Target Type</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <ss-multiselect-dropdown [options]="targetTypeOptions" [settings]="singleSelectSettings" [(ngModel)]="targetTypeOptionsModel"
+                [ngModelOptions]="{standalone: true}" (ngModelChange)="onTargetTypeChange($event)" [disabled]=true>
+              </ss-multiselect-dropdown>
+            </div>
+          </dd>
+        </dl>
+        <span *ngIf="targetTypeOptionsModel?.length > 0">
+        <select-list [dataList]="audienceTargetValues" [type]="'multi-select'" (onSelect)="onAudienceTargetValuesSelect($event)"></select-list>
+        </span>
+      </div>
+      <div class="col-sm-6 col-md-6">
+        <!--<dt-table [config]='targetTypeConfig' [data]="newRowsAdded" (onMenuSelect)="onTargetTypeMenuSelect($event)"></dt-table>-->
+        <dt-table-clientside [config]='targetTypeConfig' [data]="newRowsAdded" (onMenuSelect)="onTargetTypeMenuSelect($event)"></dt-table-clientside>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4 " *ngIf="targetTypeOptionsModel?.length > 0">
+        <button type="button" class="btn btn-sm btn-default" (click)="addTargetType()" [disabled]="disabledTargetType">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      Delivery
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Delivery Impressions</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="deliveryOptions" [settings]="singleSelectSettings" [(ngModel)]="deliveryOptionsModel"
+                  [disabled]=true>
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Display Creatives</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="displayCreativeOptions" [settings]="singleSelectSettings" [(ngModel)]="displayCreativeOptionsModel"
+                  [disabled]=true>
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Rotate Creatives</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="rotateCreativeOptions" [settings]="singleSelectSettings" [(ngModel)]="rotateCreativeOptionsModel"
+                  [disabled]=true>
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Rate Type</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="rateOptions" [settings]="singleSelectSettings" [(ngModel)]="rateOptionsModel" [disabled]=true>
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      Rate Card
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl required">
+          <input mdInput type="text" [(ngModel)]="currentLineItem.proposedCost" placeholder="click on check price" [readonly]="true"
+            [disabled]=true />
+        </md-input-container>
+      </div>
+      <div class="col-sm-4 col-md-4 ">
+        <button type="button" (click)="checkPriceType(lineitemForm)" class="btn btn-sm btn-default" [disabled]=true>Check Price</button>
+      </div>
+      <div class="col-sm-4 col-md-4 text-right link-show">
+        {{currentLineItem.proposedCostView}} <button type="button" (click)="viewPrice()" class="btn btn-sm btn-default" [disabled]=true>View Price Calculation</button>
+        <!--<a href="" (click)="viewPrice(lineitemForm)" >View Price Calculation</a>{{currentLineItem.proposedCostView}} -->
+      </div>
+    </div>
+  </div>
+</div>
+<div class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      Line Item Details
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Spec Type</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <ss-multiselect-dropdown [options]="specTypeOptions" [settings]="singleSelectSettings" [(ngModel)]="specTypeOptionsModel"
+                [ngModelOptions]="{standalone: true}" [disabled]=true>
+              </ss-multiselect-dropdown>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Priority</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select custom-dropdown-width">
+              <ss-multiselect-dropdown [settings]="singleSelectSettings" [options]="priorityList" [(ngModel)]="priorityOptionsModel" [disabled]=true>
+              </ss-multiselect-dropdown>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl required">
+          <input mdInput type="text" [(ngModel)]="currentLineItem.cpms" placeholder="Value" OnlyNumber='true' [disabled]=true/>
+        </md-input-container>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl required">
+          <input mdInput type="text" [(ngModel)]="currentLineItem.quantity" placeholder="Offer Impressions" OnlyNumber='true' [disabled]=true/>
+        </md-input-container>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl required">
+          <input mdInput type="text" [(ngModel)]="currentLineItem.proposedCost" placeholder="Offered Price" OnlyNumber='true' [disabled]=true/>
+        </md-input-container>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl ">
+          <input mdInput type="text" [(ngModel)]="currentLineItem.avails" placeholder="Avails" [disabled]=true/>
+        </md-input-container>
+      </div>
+    </div>
+  </div>
+  <div class="panel-footer  text-right">
+    <button type="button" class="btn btn-default" (click)="resetForm();">RESET</button>
+    <button type="button" class="btn btn-success" (click)="saveForm(lineitemForm);">SAVE</button>
+  </div>
+</div>

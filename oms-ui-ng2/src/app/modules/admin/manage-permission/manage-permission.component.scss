@@ -1,0 +1,50 @@
+.custom-modal-css {
+  margin-top: 9%;
+  .customTable {
+    background: #f8f8f8;
+    padding:0px;
+    margin-bottom: 0px;
+    .dt-container{
+      border-top:1px solid #dadada;
+      min-height:145px;
+      .loader{
+        margin: 7% 50%;
+        position: absolute;
+      }
+    }
+    .menu-search {
+      input[type="text"] {
+        width: 230px;
+      }
+    }
+  }
+}
+
+.formTitle {
+    text-transform:uppercase;
+}
+.formInputFields  {
+    .description {
+        input[type=text]{
+            width: 87.5%;
+            max-width: 100%;
+            border-radius: 5px;
+            border: 1px solid #e1e1e1;
+            background-color: #f7f7f7;
+            height: 135px;
+        }
+    }
+
+}
+.custom-modal-css {
+  margin-top: 9%;
+  .confirm-modal{
+    padding: 15px;
+    text-align: center;
+    .btn-container{
+      text-align: right;
+    }
+  }
+
+}
+

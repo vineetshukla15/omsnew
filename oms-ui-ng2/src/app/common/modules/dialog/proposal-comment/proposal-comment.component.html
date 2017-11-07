@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="panel panel-default custom-container">
+        <div class="panel-heading">
+            <div class="pull-left headingContainer">
+                PROPOSAL COMMENTS
+            </div>
+        </div>
+        <!-- <div class="panel-body noPadding transparent-bg">
+            <md-input-container class="full-width fl required">
+                <textarea placeholder="Enter Your comments here..." mdInput type="text" [(ngModel)]="proposalComment" [ngModelOptions]="{standalone: true}"></textarea>
+            </md-input-container>
+            <div>
+                <button type="button" class="btn btn-danger" (click)="resetForm();">RESET</button>
+                <button type="button" class="btn btn-success" (click)="saveForm($event);">SAVE</button>
+            </div>
+        </div> -->
+
+        <form class="panel-body comment-box-padding">
+            <div class="form-group">
+              <label for="comment">{{ data?.title }}</label>
+              <textarea placeholder="Enter Your comments here..." class="form-control" rows="7" [(ngModel)]="proposalComment" [ngModelOptions]="{standalone: true}"></textarea>
+            </div>
+        </form>
+        <div class="text-center comment-btn-padding">
+            <!-- <button type="button" class="btn btn-danger" (click)="resetForm();">RESET</button> -->
+            <button type="button" class="btn btn-danger" (click)="close();">Close</button>
+            <button type="button" class="btn btn-success" (click)="saveForm($event);">SAVE</button>
+        </div>
+    </div>
+</div>

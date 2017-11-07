@@ -1,0 +1,41 @@
+import { IMultiSelectOption } from "angular-2-dropdown-multiselect";
+import { ProposalLineItem } from "./proposal.lineitem";
+import { version } from "./version";
+
+export class Proposal {
+    proposalId: number;
+    opportunityId: number;
+    name: string;
+    salesCategory: any;
+    dueDate: any;
+    created: any;
+    salesPerson: any;
+    trafficker: any;
+    pricingModel: string;
+    currency: string;
+    budget: number;
+    percentageOfClose: number;
+    type: any;
+    status: any;
+    startDate: any;
+    endDate: any;
+    advertiser: any;
+    proposalDiscount: number;
+    mediaPlanner: any;
+    agencyMargin: number;
+    proposalCost: number;
+    action: string;
+    description: string;
+    agency: any;
+    advertiserDiscount: number;
+    billing_source: any;
+    term: any;
+    notes: string;
+    submitted: boolean;
+    lineItems: Array<ProposalLineItem> = [];
+    documents: any;
+    versions: Array<version> = [];
+    assignTo: any;
+    previousStatus: any;
+    audits: any;
+}

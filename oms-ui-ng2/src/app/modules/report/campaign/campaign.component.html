@@ -1,0 +1,84 @@
+<div class="panel panel-default custom-container" *ngIf="!showForm">
+	<div class="panel-heading">
+		<div class="pull-left headingContainer">
+			Campaign
+		</div>
+		<!-- <div class="pull-right">
+			<div class="customCheckbox checkboxHeaderStyle">
+				<div class="mat-checkbox-layout checkbox-active">
+					<md-checkbox [(ngModel)]="showInactiveRole" (change)="showInactiveRoles()">Show Inactive Roles</md-checkbox>
+				</div>
+			</div>
+			<dt-search [ddArray]="roleSearchTableDD" (onDTSearch)="roleSearchEvent($event)"></dt-search>
+		</div> -->
+	</div>
+	<div class="panel-body noPadding transparent-bg">
+		<dt-table-clientside [config]='campaignListDTConfig' [data]="campaignData" (onMenuSelect)="onCampaignTableMenuSelect($event)"></dt-table-clientside>
+	</div>
+</div>
+<!-- <div *ngIf="showForm" class="panel panel-default custom-container">
+	<div class="panel-heading">
+		<div class="pull-left headingContainer">
+			<span class="heading-arrow" (click)="backToTable();"></span> Role
+		</div>
+		<div class="pull-right customCheckbox" style="margin-top:7px; margin-right:10px;">
+			<div class="mat-checkbox-layout pad-10 checkbox-active">
+				<md-checkbox [(ngModel)]="newRole.active">Active</md-checkbox>
+			</div>
+		</div>
+	</div>
+	<div class="panel-body">
+		<form [formGroup]="roleForm">
+			<div class="row">
+				<div class="col-xs-12 required-error-message" *ngIf="errorMessage">{{errorMessage}}</div>
+				<div class="col-sm-4 col-md-4">
+					<md-input-container class="full-width fl required" [ngClass]="{'has-error':!roleForm.controls['roleName'].valid}">
+						<input placeholder="Name" mdInput type="text" (click)="removeValidators(roleForm.controls['roleName'],false)" [(ngModel)]="newRole.roleName"
+							[formControl]="roleForm.controls['roleName']">
+					</md-input-container>
+				</div>
+			</div>
+		</form>
+		<div class="row">
+			<div class="col-sm-12">
+				<md-input-container class="full-width fl">
+					<input mdInput placeholder="Description" type="text" [(ngModel)]="newRole.roleDesc" [ngModelOptions]="{standalone: true}"
+						maxlength="500" />
+				</md-input-container>
+			</div>
+		</div>
+	</div>
+
+</div> -->
+<!-- <div *ngIf="showForm" class="row panels-heading">
+	<div class="col-sm-12 col-md-12" class="panel-heading"> Permissions </div>
+</div> -->
+<!-- <div *ngIf="showForm" class="panel panel-default custom-container noBottomMargin noBottomRadius customCheckbox">
+	<div *ngFor="let highLevelPermission of highLevelWithLowLevelPermissionList">
+		<div class="panel-heading med-heading bottom-border">
+			<div class="pull-left">{{highLevelPermission.permissionName}}</div>
+			<div class="pull-right">
+				<i class="fa accordion-icon" (click)="highLevelPermission.isOpen =  !highLevelPermission.isOpen" [ngClass]="{'fa-minus': highLevelPermission.isOpen, 'fa-plus': !highLevelPermission.isOpen}"></i>
+			</div>
+			<div class="pull-right headingContainer">
+				<md-checkbox name="highLevelPermission.permissions" [align]="'start'" (change)="selectAllPermission(highLevelPermission.permissions ,$event)">Select All</md-checkbox>
+			</div>
+		</div>
+		<div class="panel-body" [ngClass]="{'hide':!highLevelPermission.isOpen}">
+			<div class="row">
+				<div class="col-sm-6 col-md-4" *ngFor="let lowLevelPermission of highLevelPermission.permissions">
+					<md-checkbox [(ngModel)]="lowLevelPermission['isChecked']">{{lowLevelPermission.permissionName}}</md-checkbox>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div *ngIf="showForm" class="panel panel-default custom-container">
+	<div class="panel-footer text-right">
+		<button type="button" class="btn btn-default" (click)="resetForm()">RESET</button>
+		<button type="button" class="btn btn-success" (click)="saveForm(roleForm)">SAVE</button>
+	</div>
+</div> -->
+<div *ngIf="!showForm" class="add-button">
+	<button md-fab (click)="toggleForm()"><md-icon>add</md-icon></button>
+</div>

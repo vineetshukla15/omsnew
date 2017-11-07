@@ -1,0 +1,497 @@
+@import '../../../scss/variable.scss';
+body{
+  overflow: hidden;
+}
+.width0{
+    width:0;
+}
+.width100{
+    width:100%;
+}
+.verticalMiddle{
+    vertical-align:middle;
+}
+.textCenter{
+    text-align:center;
+}
+.paddingRight16{
+    padding-right:16px;
+}
+.paddingRight20{
+    padding-right:20px;
+}
+.marginRight16{
+    margin-right:16px;
+}
+.d-inline-block{
+  display: inline-block;
+}
+.userInfo {
+  height: 100%;
+  display: table;
+  .mat-button-focus-overlay{
+    background-color: none;
+  }
+  .user-profile-dd{
+    position: absolute;
+    right: 22px;
+    top: 54px;
+    z-index: 99;
+    width: 165px;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 3px 12px -2px #ccc;
+    a{
+      display: block;
+      padding: 5px 10px;
+      line-height: 25px;
+      color: #000;
+      text-align: left;
+      &:hover{
+        color: #fff;
+        background:#99a5cf;
+      }
+      & + a{
+        border-top: 1px solid #d9d9d9;
+      }
+      span{
+        margin-right: 10px;
+      }
+    }
+  }
+}
+.admin-menu{
+  &.mat-menu-panel{
+    margin-top:14px;
+    .mat-menu-content{
+      padding:0;
+    }
+  }
+}
+.user {
+  min-height: 60px;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  position: relative;
+  right: 18px;
+  top: 25px;
+  img {
+    max-height: 46px;
+    width: auto;
+    border-radius: 50%;
+    border:1px solid #333;
+    margin-top: -20px;
+  }
+  .userName, .userRole{
+    padding-right: 18px;
+    text-align: right;
+    line-height: 16px;
+    text-transform: capitalize;
+  }
+}
+.logout {
+  border: none;
+  background-color: $headerBg;
+  border-left: 1px solid $txtColor;
+  position: relative;
+  top: -10px;
+  padding-left: 12px;
+  font-size: 20px;
+}
+#header {
+  position: fixed;
+  z-index: 9999;
+  width: 97.75%;
+}
+.headerCont {
+  font-weight: bold;
+  color: #f87e00;
+  height: 100%;
+  display: table;
+  .title{
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 18px;
+  }
+  p{margin:0;}
+}
+.headLogo {
+    background: #fff;
+    height:89px;
+    width: 100%;
+    display: table;
+    .logo{
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        img {
+            width: 60%;
+            display: inline-block;
+        }
+    }
+}
+.side-nav{
+  width:100%;
+ margin-right: 20px;
+}
+.sideNav{
+  background-color: $primaryColor;
+  height: 100%;
+    top:0;
+}
+.main-body{
+  margin-left: 30px;
+}
+html, body {
+   height: 100%;
+}
+.wrapper-menu {
+   height: 100%;
+   margin-left:0;
+   margin-right:0;
+  transition: width 0.2s ease-out;
+  &.is-open {
+    width: 45px;
+    transition: width 0.2s ease-out;
+  }
+}
+.wrapper-menu:before, .wrapper-menu:after,
+.column:before, .column:after {
+    content: "";
+    display: table;
+}
+.wrapper-menu,column {
+    &:after{
+    clear: both;
+    }
+}
+#contentWrapper.is-open{
+  .iconHamBurgerExpand{
+    background-position: -108px -90px;
+  }
+}
+#wrapperMenu{
+  .sibebarScroll{
+    overflow: auto;
+    height: calc(100% - 90px);
+    background-color:#3a466c;
+  }
+  .smallLogo{
+    display: none;
+    max-width: 35px;
+  }
+  &.is-open{
+    .smallLogo{
+      display: inline-block;
+    }
+    .bigLogo, .allArrows{
+      display: none;
+    }
+  }
+}
+#sidebar {
+    background-color:#3a466c;
+    padding-left: 0;
+    float: left;
+    height: 100%;
+    overflow-y: auto;
+    .collapse.in {
+      display: inline;
+            padding-left: 12px;
+    }
+    .caretPos{
+        float:right;
+        margin-top: 6px;
+    }
+     .nav{
+        li {
+            border-bottom: 1px solid #616b89;
+            .selected{
+              color:#fff;
+            }
+
+            a, .inactiveList{
+              white-space: nowrap;
+              overflow: hidden;
+              padding: 16px 13px;
+              color:#98a4ce;
+              &:hover, &.selected{
+                  background-color: $side-menu-hover-color;
+                  color:#fff;
+                  & > div.salesImg{
+                      background-position: -73px -95px;
+                  }
+                  & > div.DeliveryImg{
+                      background-position: -74px -134px;
+                  }
+                  & > div.FinanceImg{
+                      background-position: -73px -623px;
+                  }
+                  & > div.ReportsImg{
+                      background-position: -72px -581px;
+                  }
+                  & > div.adminImg{
+                      background-position: -73px -54px;
+                  }
+                  & > div.dashboardImg{
+                      background-position: -73px -781px;
+                  }
+              }
+              &:focus{
+                background-color: $side-menu-hover-color;
+                color: #fff;
+              }
+              &:active{
+                  color: #fff;
+              }
+              &:active{
+                color: #fff;
+              }
+              &.active{
+                color: #fff;
+              }
+            .leftArrowImg{
+              &.active {
+                left: auto;
+                background-position: -78px -342px;
+              }
+            }
+          }
+
+          .inactiveList{
+            &:hover, &.selected{
+                  background-color: transparent;
+                  color:#98a4ce;
+            }
+          }
+
+          li a, .inactiveList{
+            padding: 6px 8px;
+            border-left: 3px solid transparent;
+            &:before{
+              content: '\2022';
+              display: inline-block;
+              vertical-align: sub;
+              font-size: 32px;
+              line-height: 10px;
+              margin-right: 12px;
+            }
+            &.selected{
+              border-left: 3px solid #fff;
+            }
+            &:hover{
+              border-left: 3px solid #fff;
+            }
+          }
+          .toggleNav{
+                display: inline-block;
+                padding: 10px 10px;
+                margin: 5px 5px 0px 2px;
+                border-radius: 100%;
+
+            }
+        }
+    }
+}
+ul.left-submenu{
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.2s ease-out;
+    li{
+        border-bottom: none!important;
+        background-color: #2e3756;
+        a, div{
+            padding-left:42px!important;
+        }
+    }
+  /*&.active {
+    transition: max-height 0.2s ease-out;
+  }*/
+}
+#main {
+    padding: 15px;
+    left: 0;
+}
+.mainContent {
+    top:0;
+    transition: width 0.2s ease-out;
+    position: absolute;
+    height: 100%;
+    right: 0;
+    > .mainContent{
+       height: 89px;
+      box-shadow: 16px -6px 8px 4px #ddd;
+      -webkit-box-shadow: 16px -6px 8px 4px #ddd;
+      -moz-box-shadow: 16px -6px 8px 4px #ddd;
+      background-color: #fff;
+      position: absolute;
+      right: 0;
+      width: calc(100% + 16px);
+    }
+    .content-pages{
+      margin:110px 0px 20px;
+      height:calc(100% - 130px);
+      overflow: auto;
+    }
+    &.is-open {
+      width: calc(100% - 45px);
+      transition: width 0.2s ease-out;
+    }
+}
+.iconHamBurgerExpand{
+    height: 18px;
+    width: 18px;
+    background-image: url('../../../assets/images/slicing.png');
+    background-position: -197px -96px;
+    background-size: 225px;
+    -webkit-transition: .5s ease-in-out;
+    transition: .5s ease-in-out;
+}
+.iconHamBurgerCollapse{
+  display:none;
+     height:18px;
+    width: 18px;
+    background-image: url('../../../assets/images/slicing.png');
+    background-position: -131px -96px;
+    background-size: 225px;
+}
+.allArrows{
+    display: inline-block;
+    vertical-align: middle;
+    height: 18px;
+    width: 9px;
+    background-image: url(../../../assets/images/slicing.png);
+    background-size: 225px;
+    float: right;
+}
+.leftArrowImg{
+    background-position: -16px -344px;
+    position: absolute;
+    right: 12px;
+    top: 18px;
+}
+.allICons{
+    display: inline-block;
+    vertical-align: middle;
+    height: 18px;
+    width: 18px;
+    background-image: url('../../../assets/images/slicing.png');
+    background-size: 225px;
+    margin-top:-4px;
+    &.salesImg{
+         background-position: -11px -95px;
+    }
+    &.DeliveryImg {
+        background-position: -11px -134px;
+    }
+    &.FinanceImg{
+        background-position: -11px -623px;
+    }
+    &.ReportsImg{
+        background-position: -10px -581px;
+    }
+    &.adminImg{
+        background-position: -11px -54px;
+    }
+    &.dashboardImg{
+        background-position: -11px -781px;
+    }
+}
+.nav-stacked>li+li {
+        margin-top: 0;
+    }
+.user{
+  .user-image{
+    padding-right: 20px;
+  }
+}
+.user img{
+    margin-top: 0;
+}
+.logout {
+    top:0;
+    border-left: 0;
+}
+.logoutImg{
+    display: inline-block;
+    vertical-align: middle;
+    height: 18px;
+    width: 18px;
+    background-image: url('../../../assets/images/slicing.png');
+   background-position: -130px -674px;
+    background-size: 225px 410px;
+   position: relative;
+    right: 11px;
+    background-color: transparent;
+}
+.search{border:1px solid #bababa;border-radius:3px;padding:10px;}
+.search input, .search select{border:none;background:none;font-size:12px;color:#bababa;}
+.search select{border-left:1px solid #bababa;margin-left:10px;padding-left:10px;padding-right:15px;margin-right:15px;}
+@media screen and (min-width:320px) {
+  .row-offcanvas {
+    position: relative;
+    -webkit-transition: all 0.25s ease-out;
+    -moz-transition: all 0.25s ease-out;
+    transition: all 0.25s ease-out;
+       height: 100%;
+      margin:0;
+  }
+  .row-offcanvas-left {
+      .active{
+          left: 3%;
+          .sidebar-offcanvas {
+                left: -3%;
+                position: absolute;
+                top: 0;
+                width: 60px;
+                text-align: center;
+                min-width:42px;
+          }
+      }
+  }
+  #main {
+    left: 0;
+  }
+}
+
+@media only screen and (max-width:766px){
+  .wrapper-menu{
+    position: absolute;
+    z-index: 999;
+  }
+  .headLogo{
+    height:70px;
+    .logo{
+      padding: 10px 0;
+      img{
+        width: 45%;
+      }
+    }
+  }
+  #wrapperMenu .sibebarScroll{
+    height:calc(100% - 70px);
+  }
+  .mainContent > .mainContent{
+    height:70px;
+  }
+  .mainContent .content-pages{margin-top:90px;}
+  .user{
+    top:17px;
+    right:-18px;
+    .userName, .userRole{
+      padding-right: 10px;
+    }
+    .user-image{
+      padding-right:10px;
+    }
+
+    img{
+      width:35px;
+    }
+  }
+  .outlet-wrapper{
+    padding:0;
+  }
+
+}

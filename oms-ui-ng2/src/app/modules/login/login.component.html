@@ -1,0 +1,119 @@
+<div class="body-container">
+  <div class="login-content">
+    <div class="login-slider fl">
+
+      <carousel class="login-carousal">
+        <slide>
+          <img src="assets/images/login.jpg" alt="First slide" height="100%" width="100%">
+          <div class="carousel-caption">
+            <div><img src="assets/images/logo_login.png" />
+              <p>Media Planner</p>
+            </div>
+          </div>
+        </slide>
+        <slide>
+          <img src="assets/images/login.jpg" alt="First slide" height="100%" width="100%">
+          <div class="carousel-caption">
+            <div><img src="assets/images/logo_login.png" />
+              <p>Media Planner</p>
+            </div>
+          </div>
+        </slide>
+        <slide>
+          <img src="assets/images/login.jpg" alt="First slide" height="100%" width="100%">
+          <div class="carousel-caption">
+            <div><img src="assets/images/logo_login.png" />
+              <p>Media Planner</p>
+            </div>
+          </div>
+        </slide>
+      </carousel>
+
+
+    </div>
+    <div class="login-form fl" [ngClass]="{'hide': (isSignUp || isSignInVerified)}">
+      <div class="sign-head marT20">
+        Sign in
+      </div>
+      <div class="error-message" *ngIf="invalidLogin">Wrong Email or Password</div>
+
+      <div>
+        <form (keydown)="keyDownFunction($event)">
+          <div class="marT20 clearfix">
+            <div class="user-icon fl"></div>
+            <md-input-container class="full-width fl required">
+              <input mdInput placeholder="Username" [(ngModel)]="credential.userName" (click)="toggleInvalid()" type="text" [ngModelOptions]="{standalone: true}">
+            </md-input-container>
+          </div>
+          <div class="marT20 clearfix">
+            <div class="pass-icon fl"></div>
+            <md-input-container class="full-width fl required">
+              <input mdInput placeholder="Password" [(ngModel)]="credential.password" type="{{pwdAttributeType}}" (click)="toggleInvalid()"
+                [ngModelOptions]="{standalone: true}">
+              <i class="fa fa-eye" [ngClass]="{'active': pwdAttributeType == 'text'}" aria-hidden="true" (click)="pwdAttributeType = (pwdAttributeType == 'password')?'text':'password'"></i>
+            </md-input-container>
+          </div>
+          <div class="rememberme">
+            <div class="marT20">
+              <md-checkbox class="marT10">Remember Me</md-checkbox>
+              <label class="fr marT3 pointer">Forgot Password?</label>
+            </div>
+          </div>
+          <div class="lgn-btn marT20" (click)="login()">LOGIN</div>
+          <div class="center marT20"> -OR- </div>
+          <div class="signup-btn marT20" (click)="isSignUp = true;">Create an account</div>
+        </form>
+      </div>
+    </div>
+    <div class="login-form signIn-form fl" [ngClass]="{'hide':(!isSignUp || isSignInVerified )}">
+      <!--<div *ngIf="emailMessage != undefined"><a href="{{emailMessage}}">{{emailMessage}}</a></div>
+      <div *ngIf="verificationMail">Verification Link has Been sent to the registered mail</div>-->
+      <div class="sign-head">
+        Sign Up
+      </div>
+      <div class="clearfix marT20">
+        <div class="input-field marT20 clearfix">
+          <md-input-container class="full-width fl">
+            <input mdInput placeholder="First Name" [(ngModel)]="signUpData.firstName" [ngModelOptions]="{standalone: true}" type="text">
+          </md-input-container>
+        </div>
+        <div class="input-field marT20 clearfix">
+          <md-input-container class="full-width fl">
+            <input mdInput placeholder="Last Name" [(ngModel)]="signUpData.lastName" [ngModelOptions]="{standalone: true}" type="text">
+          </md-input-container>
+        </div>
+        <div class="input-field marT20 clearfix">
+          <md-input-container class="full-width fl">
+            <input mdInput placeholder="Email" [(ngModel)]="signUpData.emailId" [ngModelOptions]="{standalone: true}" type="email">
+          </md-input-container>
+        </div>
+        <div class="input-field marT20 clearfix">
+          <md-input-container class="full-width fl">
+            <input mdInput placeholder="User Name" [(ngModel)]="signUpData.username" [ngModelOptions]="{standalone: true}" type="text">
+          </md-input-container>
+        </div>
+      </div>
+      <div class="btn btn-success marT20 signUpBtn" (click)="submitSignUp()">Sign Up</div>
+      <div class="btn btn-danger marT20 signUpBtn" (click)="cancelSignUp()">Cancel</div>
+    </div>
+    <div class="login-form signIn-form SignInVerified fl" [ngClass]="{'hide': (!isSignUp && !isSignInVerified)}">
+      <h3><i class="checkIcon"></i> Successfully Verified !</h3>
+      <p>Hi Sourabh, your account has been verified sucessfully. Please fill the below details to complete your registration</p>
+      <hr>
+      <p class="subHead">Create Password</p>
+      <div class="clearfix marT10">
+        <div class="input-field clearfix">
+          <md-input-container class="full-width fl required">
+            <input mdInput placeholder="Password" type="password" [(ngModel)]="createPassword.password" [ngModelOptions]="{standalone: true}">
+          </md-input-container>
+        </div>
+        <div class="input-field marT20 clearfix">
+          <md-input-container class="full-width fl required">
+            <input mdInput placeholder="Confirm Password" type="password" [(ngModel)]="createPassword.confirmPassword" [ngModelOptions]="{standalone: true}">
+          </md-input-container>
+        </div>
+      </div>
+      <div class="btn btn-success marT20 block signUpBtn" (click)="saveNewPassword()">Save</div>
+    </div>
+  </div>
+</div>

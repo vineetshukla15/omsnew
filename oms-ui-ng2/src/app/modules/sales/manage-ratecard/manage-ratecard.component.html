@@ -1,0 +1,335 @@
+<div class="panel panel-default custom-container" *ngIf="!showForm">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      Rates
+    </div>
+    <div class="pull-right">
+      <dt-search [ddArray]="rateCardSearchTableDD" (onDTSearch)="rateSearchEvent($event)"></dt-search>
+    </div>
+  </div>
+  <div class="panel-body noPadding transparent-bg">
+    <dt-table [config]='rateDTConfig' [reload]="rateListRefresh" [searchColIndex]="rateListSearchMOdel.colIndex" [searchText]="rateListSearchMOdel.searchTxt"
+      (onMenuSelect)="onRateTableMenuSelect($event)"></dt-table>
+  </div>
+</div>
+<div *ngIf="!showForm && isRateCardCreatePermission" class="add-button">
+  <button md-fab (click)="toggleForm()"><md-icon>add</md-icon></button>
+</div>
+<div *ngIf="showForm" class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      <span class="heading-arrow" (click)="backToTable();"></span> Rates
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="col-xs-12 required-error-message" *ngIf="errorMessage">{{errorMessage}}</div>
+    <form [formGroup]="ratecardForm">
+      <div class="row">
+        <div class="col-sm-4 col-md-4">
+          <dl>
+            <dt class="dd-label required">Product</dt>
+            <dd>
+              <div class="custom-multi-select-dd margin-top single-select">
+                <div class="customHeightDropdown" [ngClass]="{'has-error':!ratecardForm.controls['product'].valid}">
+                  <ss-multiselect-dropdown [options]="productOptions" [settings]="singleSelectSettings" [(ngModel)]="productOptionsModel" name="product"
+                    formControlName="product" (click)="removeValidators(ratecardForm.controls['product'],false)" (ngModelChange)="onProductChange($event)">
+                  </ss-multiselect-dropdown>
+                </div>
+              </div>
+            </dd>
+          </dl>
+
+        </div>
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl required" [ngClass]="{'has-error':!ratecardForm.controls['basePrice'].valid}">
+            <input placeholder="Base Price" mdInput type="number" (click)="removeValidators(ratecardForm.controls['basePrice'],false)"
+              [(ngModel)]="newRateCard.basePrice" [formControl]="ratecardForm.controls['basePrice']" />
+          </md-input-container>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <md-input-container class="full-width fl">
+            <input placeholder="Description" mdInput type="text" [(ngModel)]="newRateCard.notes" [ngModelOptions]="{standalone: true}"
+            />
+          </md-input-container>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div *ngIf="showForm" class="panel panel-default custom-container noBottomMargin noBottomRadius seasonalSaveUpto">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      Seasonal Discount
+    </div>
+  </div>
+  <div class="panel-body">
+    <!-- listing seasonal discount form start-->
+    <div *ngFor="let item of seasonalDiscountList; let i = index;" class="row broder-bottom">
+      <div *ngIf="editSeasonalIndex!=i">
+        <div class="col-sm-3 col-md-3">
+          <dl>
+            <dt class="cus-label">Rules<span style="color:red;">*</span></dt>
+            <dd class="cus-label-txt">{{item.ruleName}}</dd>
+          </dl>
+        </div>
+        <div class="col-sm-2 col-md-2">
+          <dl>
+            <dt class="cus-label">Start Date<span style="color:red;">*</span></dt>
+            <dd class="cus-label-txt">{{item.startDate | date: 'dd-MM-yyyy'}}</dd>
+          </dl>
+        </div>
+        <div class="col-sm-2 col-md-2">
+          <dl>
+            <dt class="cus-label">End Date<span style="color:red;">*</span></dt>
+            <dd class="cus-label-txt">{{item.endDate | date: 'dd-MM-yyyy'}}</dd>
+          </dl>
+        </div>
+        <div class="col-sm-2 col-md-2">
+          <dl>
+            <dt class="cus-label">Not</dt>
+            <dd class="cus-label-txt">{{ item.isNot ? 'Active' : 'Inactive'}}</dd>
+          </dl>
+        </div>
+        <div class="col-sm-1 col-md-1">
+          <dl>
+            <dt class="cus-label">%<span style="color:red;">*</span></dt>
+            <dd class="cus-label-txt">{{item.discount}}%</dd>
+          </dl>
+        </div>
+        <div class="col-sm-2 col-md-2">
+          <div class="action-btn">
+            <i class="fa fa-pencil hand-cursor" (click)="editSeasonalDiscount(item, i);" aria-hidden="true"></i>
+            <i class="fa fa-trash  hand-cursor" (click)="deleteSeasonalDiscount(i);" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+
+
+      <div *ngIf="editSeasonalIndex==i">
+        <div class="col-sm-3 col-md-3">
+          <md-input-container class="full-width fl required">
+            <input placeholder="Rule" mdInput type="text" [(ngModel)]="item.ruleName" />
+          </md-input-container>
+        </div>
+        <div class="col-sm-2 col-md-2">
+          <div class="custom-date-picker">
+            <md-input-container class="required" (click)="calendarBtnClick($event, 'isNewSeasonalStartDateOpen')">
+              <input mdInput [ngModel]="item.startDate | date: 'dd-MM-yyyy'" (ngModelChange)="startDateChanged($event)" placeholder="Start Date"
+                [readonly]="true">
+              <button mdSuffix [mdDatepickerToggle]=""></button>
+            </md-input-container>
+            <div class="date-picker-container" *ngIf="calendarArr['isNewSeasonalStartDateOpen']" (click)="clickOnDatepicker($event, 'isNewSeasonalStartDateOpen')">
+              <datepicker [showWeeks]="false" [(ngModel)]="item.startDate" (selectionDone)="calendarArr['isNewSeasonalStartDateOpen']=false"></datepicker>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2 col-md-2">
+          <div class="custom-date-picker">
+            <md-input-container class="required" (click)="calendarBtnClick($event, 'isNewSeasonalEndDateOpen')">
+              <input mdInput [ngModel]="item.endDate | date: 'dd-MM-yyyy'" placeholder="End Date" (ngModelChange)="endDateChanged($event)"
+                [readonly]="true">
+              <button mdSuffix [mdDatepickerToggle]=""></button>
+            </md-input-container>
+            <div class="date-picker-container" *ngIf="calendarArr['isNewSeasonalEndDateOpen']" (click)="clickOnDatepicker($event, 'isNewSeasonalEndDateOpen')">
+              <datepicker [showWeeks]="false" [(ngModel)]="item.endDate" (selectionDone)="calendarArr['isNewSeasonalEndDateOpen']=false"></datepicker>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2 col-md-2 customCheckbox text-center">
+          <div class="mat-checkbox-layout pad-10 checkbox-active">
+            <md-checkbox [(ngModel)]="item.isNot" [align]="'start'">Not</md-checkbox>
+          </div>
+        </div>
+        <div class="col-sm-1 col-md-1">
+          <md-input-container class="full-width fl required">
+            <input placeholder="%" mdInput type="number" [(ngModel)]="item.discount" />
+          </md-input-container>
+        </div>
+        <div class="col-sm-2 col-md-2 text-right">
+          <button type="button" class="btn btn-sm btn-success" (click)="saveSeasonalDiscount();">SAVE</button>
+        </div>
+      </div>
+
+    </div>
+    <!-- listing seasonal discount form end-->
+
+    <!-- Add seasonal discount form start-->
+    <div *ngIf="showSeasonalDiscountAddForm" class="row broder-bottom noSeasonalSave">
+      <div class="col-xs-12 required-error-message" *ngIf="seasonalDiscountErrorMessage">{{seasonalDiscountErrorMessage}}</div>
+      <form [formGroup]="ratecardSeasonalForm">
+        <div class="col-sm-3 col-md-3">
+          <md-input-container class="full-width fl required" [ngClass]="{'has-error':!ratecardSeasonalForm.controls['ruleName'].valid}">
+            <input placeholder="Rule" mdInput type="text" (click)="removeValidators(ratecardSeasonalForm.controls['ruleName'],false)"
+              formControlName="ruleName" [(ngModel)]="newSeasonalDiscount.ruleName" [formControl]="ratecardSeasonalForm.controls['ruleName']"
+            />
+          </md-input-container>
+        </div>
+        <div class="col-sm-2 col-md-2">
+          <div class="custom-date-picker">
+            <md-input-container class="required" (click)="calendarBtnClick($event, 'isNewSeasonalStartDateOpen')" [ngClass]="{'has-error':!ratecardSeasonalForm.controls['startDate'].valid}">
+              <input mdInput *ngIf="!newSeasonalDiscount['isNewSeasonalStartDateOpen']" [value]="newSeasonalDiscount.startDate | date: 'dd-MM-yyyy'"
+                placeholder="Start Date" [readonly]="true" (click)="removeValidators(ratecardSeasonalForm.controls['startDate'],false)"
+                formControlName="startDate" [formControl]="ratecardSeasonalForm.controls['startDate']">
+              <input mdInput *ngIf="newSeasonalDiscount['isNewSeasonalStartDateOpen']" placeholder="Start Date" [readonly]="true">
+              <button mdSuffix [mdDatepickerToggle]=""></button>
+            </md-input-container>
+            <div class="date-picker-container" *ngIf="calendarArr['isNewSeasonalStartDateOpen']" (click)="clickOnDatepicker($event, 'isNewSeasonalStartDateOpen')">
+              <datepicker [showWeeks]="false" [(ngModel)]="newSeasonalDiscount.startDate" formControlName="startDate" [minDate]="minDateValue" (selectionDone)="startDateChanged($event); calendarArr['isNewSeasonalStartDateOpen']=false;"></datepicker>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-2 col-md-2">
+          <div class="custom-date-picker">
+            <md-input-container class="required" (click)="calendarBtnClick($event, 'isNewSeasonalEndDateOpen')" [ngClass]="{'has-error':!ratecardSeasonalForm.controls['endDate'].valid}">
+              <input mdInput *ngIf="!newSeasonalDiscount['isNewSeasonalEndDateOpen']" [value]="newSeasonalDiscount.endDate | date: 'dd-MM-yyyy'"
+                placeholder="End Date" [readonly]="true" (click)="removeValidators(ratecardSeasonalForm.controls['endDate'],false)"
+                formControlName="endDate" [formControl]="ratecardSeasonalForm.controls['endDate']">
+              <input mdInput *ngIf="newSeasonalDiscount['isNewSeasonalEndDateOpen']" placeholder="End Date" [readonly]="true">
+              <button mdSuffix [mdDatepickerToggle]=""></button>
+            </md-input-container>
+            <div class="date-picker-container" *ngIf="calendarArr['isNewSeasonalEndDateOpen']" (click)="clickOnDatepicker($event, 'isNewSeasonalEndDateOpen')">
+              <datepicker [showWeeks]="false" [(ngModel)]="newSeasonalDiscount.endDate" formControlName="endDate" [minDate]="minDateValue" (selectionDone)="endDateChanged($event); calendarArr['isNewSeasonalEndDateOpen']=false;"></datepicker>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-2 col-md-2 customCheckbox text-center">
+          <div class="mat-checkbox-layout pad-10 checkbox-active">
+            <md-checkbox [(ngModel)]="newSeasonalDiscount.isNot" formControlName="not" [align]="'start'">Not</md-checkbox>
+          </div>
+        </div>
+        <div class="col-sm-1 col-md-1">
+          <md-input-container class="full-width fl required" [ngClass]="{'has-error':!ratecardSeasonalForm.controls['percent'].valid}">
+            <input placeholder="%" mdInput type="number" (click)="removeValidators(ratecardSeasonalForm.controls['percent'],false)" formControlName="percent"
+              [(ngModel)]="newSeasonalDiscount.discount" [formControl]="ratecardSeasonalForm.controls['percent']" />
+          </md-input-container>
+        </div>
+        <div class="col-sm-2 col-md-2 text-right">
+          <button type="button" class="btn btn-sm btn-default" (click)="addSeasonalDiscount(ratecardSeasonalForm);">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div *ngIf="showSeasonalDiscountAddButton" class="panel-footer  text-right">
+    <button type="button" class="btn btn-sm btn-default add-more" (click)="showAddSeasonalDiscountForm();">Add</button>
+    <!--<button (click)="showAddSeasonalDiscountForm();" class="custom-btn custom-btn-primary noSeasonalSave" md-mini-fab><md-icon>add</md-icon></button>-->
+  </div>
+</div>
+<div *ngIf="showForm" class="panel panel-default custom-container noBottomMargin noBottomRadius premiumSaveUpto">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      Premium
+    </div>
+  </div>
+  <div class="panel-body">
+    <!-- listing preimium  form start-->
+    <div *ngFor="let item of premiumList; let i = index;" class="row broder-bottom">
+      <div *ngIf="editPremiumIndex!=i">
+        <!--<div class="col-sm-2 col-md-2">
+          <dl>
+            <dt class="cus-label">Status</dt>
+            <dd class="cus-label-txt">{{ item.status ? 'Active' : 'Inactive'}}</dd>
+          </dl>
+        </div>-->
+        <div class="col-sm-4 col-md-4">
+          <dl>
+            <dt class="cus-label">Target Type<span style="color:red;">*</span></dt>
+            <dd class="cus-label-txt">{{item.targetTypeName}}</dd>
+          </dl>
+        </div>
+        <div class="col-sm-4 col-md-4">
+          <dl>
+            <dt class="cus-label">%<span style="color:red;">*</span></dt>
+            <dd class="cus-label-txt">{{item.premiumPercentage}}%</dd>
+          </dl>
+        </div>
+        <div class="col-sm-4 col-md-4">
+          <div class="action-btn">
+            <i class="fa fa-pencil hand-cursor" (click)="editPremium(item, i);" aria-hidden="true"></i>
+            <i class="fa fa-trash  hand-cursor" (click)="deletePremium(i);" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="editPremiumIndex==i">
+        <!--<div class="col-sm-2 col-md-2 customCheckbox">
+          <div class="mat-checkbox-layout pad-10 checkbox-active">
+            <md-checkbox [(ngModel)]="item.status" [align]="'start'">Status</md-checkbox>
+          </div>
+        </div>-->
+        <div class="col-sm-4 col-md-4">
+          <dl>
+            <dt class="dd-label">Target Type</dt>
+            <dd>
+              <div class="custom-multi-select-dd margin-top single-select">
+                <ss-multiselect-dropdown [options]="item.targetTypeOptions" [settings]="singleSelectSettings" [(ngModel)]="item.targetTypeOptionsModel"
+                  [ngModelOptions]="{standalone: true}">
+                </ss-multiselect-dropdown>
+              </div>
+            </dd>
+          </dl>
+        </div>
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl">
+            <input placeholder="%" mdInput type="number" [(ngModel)]="item.premiumPercentage" />
+          </md-input-container>
+        </div>
+
+        <div class="col-sm-4 col-md-4 text-right">
+          <button type="button" class="btn btn-sm btn-success" (click)="savePremium();">Save</button>
+        </div>
+      </div>
+
+    </div>
+    <!-- listing preimium form end-->
+
+    <!-- Add preimium  form start-->
+    <div *ngIf="showPremiumAddForm" class="row broder-bottom noPremiumSave">
+
+      <!--<div class="col-sm-2 col-md-2 customCheckbox">
+        <div class="mat-checkbox-layout pad-10 checkbox-active">
+          <md-checkbox [(ngModel)]="newPremium.status" [align]="'start'">Status</md-checkbox>
+        </div>
+      </div>-->
+      <div class="col-xs-12 required-error-message" *ngIf="premiumErrorMessage">{{premiumErrorMessage}}</div>
+      <form [formGroup]="ratecardPremiumForm">
+        <div class="col-sm-4 col-md-4">
+          <dl>
+            <dt class="dd-label required">Target Type</dt>
+            <dd>
+              <div class="custom-multi-select-dd margin-top single-select">
+                <div class="customHeightDropdown" [ngClass]="{'has-error':!ratecardPremiumForm.controls['targetTypeOptions'].valid}">
+                  <ss-multiselect-dropdown [options]="newPremium.targetTypeOptions" [settings]="singleSelectSettings" [(ngModel)]="newPremium.targetTypeOptionsModel"
+                    name="targetTypeOptions" formControlName="targetTypeOptions" (click)="removeValidators(ratecardPremiumForm.controls['targetTypeOptions'],false)">
+                  </ss-multiselect-dropdown>
+                </div>
+              </div>
+            </dd>
+          </dl>
+        </div>
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl required">
+            <input placeholder="%Age" mdInput type="number" formControlName="premiumPercentage" (click)="removeValidators(ratecardPremiumForm.controls['premiumPercentage'],false)"
+              [(ngModel)]="newPremium.premiumPercentage" />
+          </md-input-container>
+        </div>
+      </form>
+
+      <div class="col-sm-4 col-md-4 text-right">
+
+        <button type="button" class="btn btn-sm btn-default" (click)="addPremium(ratecardPremiumForm);">Save</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showPremiumAddButton" class="panel-footer  text-right">
+    <!--<button (click)="showAddPremiumForm();" md-mini-fab class="custom-btn custom-btn-primary noPremiumSave"><md-icon>add</md-icon></button>-->
+    <button type="button" class="btn btn-sm btn-default add-more" (click)="showAddPremiumForm();">Add</button>
+  </div>
+  <div *ngIf="showForm" class="panel-footer  text-right">
+    <button type="button" class="btn btn-default" (click)="resetForm();">RESET</button>
+    <button type="button" class="btn btn-success" (click)="saveForm(ratecardForm);">SAVE</button>
+  </div>
+</div>

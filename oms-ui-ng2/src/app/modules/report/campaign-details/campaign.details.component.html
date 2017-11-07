@@ -1,0 +1,78 @@
+<div class="panel panel-default custom-container">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      Campaign Details
+    </div>
+
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl">
+          <input type="text" placeholder="Name" class="col-sm-8 col-md-8" [value]="campaignObj.name"  [disabled]="true" mdInput />
+        </md-input-container>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl">
+          <input type="text" placeholder="cpmHigh" class="col-sm-8 col-md-8" [value]="campaignObj.cpmHigh.value"  [disabled]="true" mdInput />
+        </md-input-container>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl">
+          <input type="text" placeholder="cpmLow" class="col-sm-8 col-md-8" [value]="campaignObj.cpmLow.value"  [disabled]="true" mdInput />
+        </md-input-container>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl">
+          <input type="text" placeholder="Budget" class="col-sm-8 col-md-8" [value]="campaignObj.budget"  [disabled]="true" mdInput />
+        </md-input-container>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl">
+          <input type="text" placeholder="Goal Type" class="col-sm-8 col-md-8" [value]="campaignObj.goalType"  [disabled]="true" mdInput />
+        </md-input-container>
+      </div>
+      <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl">
+          <input type="text" placeholder="cpmHigh" class="col-sm-8 col-md-8" [value]="campaignObj.name"  [disabled]="true" mdInput />
+        </md-input-container>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl">
+          <input type="text" placeholder="Is include in forecast" class="col-sm-8 col-md-8" [value]="campaignObj.includeInForecast"  [disabled]="true" mdInput />
+        </md-input-container>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl">
+          <input type="text" placeholder="Status" class="col-sm-8 col-md-8" [value]="campaignObj.status"  [disabled]="true" mdInput />
+        </md-input-container>
+      </div>
+      <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl">
+          <input type="text" placeholder="Priority" class="col-sm-8 col-md-8" [value]="campaignObj.priority"  [disabled]="true" mdInput />
+        </md-input-container>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="panel panel-default custom-container">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      Goal List
+    </div>
+
+  </div>
+  <div class="panel-body noPadding transparent-bg">
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+         <dt-table-clientside [config]='campaignGoalListDTConfig' [data]="campaignGoalListData" (onMenuSelect)="onCampaignGoalTableMenuSelect($event)"></dt-table-clientside>
+      </div>
+    </div>
+  </div>
+</div>

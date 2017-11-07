@@ -1,0 +1,14 @@
+<div class="panel panel-default custom-container">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      Order Line Items
+    </div>
+    <div class="pull-right">
+      <dt-search [ddArray]="orderSearchTableDD" (onDTSearch)="orderSearchEvent($event)"></dt-search>
+    </div>
+  </div>
+  <div class="panel-body noPadding transparent-bg">
+    <dt-table [config]='orderListDTConfig' [reload]="orderListRefresh" [searchColIndex]="orderListSearchModel.colIndex"
+      [searchText]="orderListSearchModel.searchTxt" (onMenuSelect)="onOrderTableMenuSelect($event)"></dt-table>
+  </div>
+</div>

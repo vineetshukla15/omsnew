@@ -1,0 +1,129 @@
+<div class="panel panel-default custom-container" *ngIf="!showForm">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      Creatives
+    </div>
+    <!-- <div class="pull-right">
+      <dt-search [ddArray]="creativeSearchTableDD" (onDTSearch)="creativeSearchEvent($event)"></dt-search>
+    </div> -->
+  </div>
+  <div class="panel-body noPadding transparent-bg">
+    <!-- <dt-table [config]='creativeListDTConfig' [reload]="creativeListRefresh" [searchColIndex]="creativeListSearchModel.colIndex"
+      [searchText]="creativeListSearchModel.searchTxt" (onMenuSelect)="onCreativeTableMenuSelect($event)"></dt-table> -->
+      <dt-table-clientside [config]='creativeListDTConfig'  [data]="creativeListData"></dt-table-clientside>
+  </div>
+</div>
+  <div class="row">
+        <div class="col-xs-12 required-error-message" *ngIf="errorMessage">{{errorMessage}}</div>
+  </div>
+  <div class="row">
+        <div class="col-xs-12 required-success-message" *ngIf="successMessage">{{successMessage}}</div>
+  </div>
+<div *ngIf="showForm" class="panel panel-default custom-container">
+  <form [formGroup]="creativeForm">
+    <div class="panel-heading">
+      <div class="pull-left headingContainer">
+        <span class="heading-arrow" (click)="backToTable();"></span> New Creative
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <!-- <div class="col-sm-4 col-md-4">
+          <span class="full-width fl">
+            <input placeholder="Name" name="creativeName" type="text" formControlName="creativeName"/>
+          </span>
+        </div> -->
+
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl required">
+            <input placeholder="Name" mdInput name="name" type="text" formControlName="creativeName" />
+          </md-input-container>
+        </div>
+
+        <div class="col-sm-4 col-md-4">
+          <dl>
+            <dt class="dd-label required">Type</dt>
+            <dd>
+              <div class="custom-multi-select-dd margin-top single-select">
+                <div class="customHeightDropdown">
+                  <ss-multiselect-dropdown [options]="creativeTypeOptions" [settings]="singleSelectSettings" [(ngModel)]="defaultSelectedTypeModel" formControlName="creativeType">
+                  </ss-multiselect-dropdown>
+                </div>
+              </div>
+            </dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="creativeForm.value.creativeType == 'Standard'">
+        <div class="col-sm-4 col-md-4">
+          <dl>
+            <dt class="dd-label required">Insertion Point</dt>
+            <!-- input type hidden for creative type-->
+            <input placeholder="Destination" type="hidden" name="insertionpoint" [value]="creativeForm.value.insertionPoint"/>
+            <!-- End input type hidden for creative type-->
+            <dd>
+              <div class="custom-multi-select-dd margin-top single-select">
+                <div class="customHeightDropdown">
+                  <ss-multiselect-dropdown [options]="insertionPointOptions" [settings]="singleSelectSettings" [(ngModel)]="defaultSelectedInsertionPointModel" formControlName="insertionPoint">
+                  </ss-multiselect-dropdown>
+                </div>
+              </div>
+            </dd>
+          </dl>
+        </div>
+
+        <div class="col-sm-4 col-md-4">
+          <!-- <span class="full-width fl">
+            <input placeholder="Destination" name="clickDestinationUri" type="file" />
+          </span> -->
+
+          <div>
+            <input type="file" (change)="fileChange($event)" [multiple]="true" placeholder="Upload file">
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="creativeForm.value.creativeType == 'Thirdparty'">
+
+        <div class="col-sm-4 col-md-4">
+          VPA Id Strict
+          <span class="full-width fl">
+            <input type="checkbox" name="vpaidStrict" formControlName="vpaidStrict" />
+          </span>
+        </div>
+
+       <div class="col-sm-4 col-md-4">
+          VPA Id Countdown
+          <span class="full-width fl">
+            <input type="checkbox" name="vpaidCountdown" formControlName="vpaidCountdown" />
+          </span>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="creativeForm.value.creativeType == 'SpotPlaceholder'">
+
+        <div class="col-sm-4 col-md-4">
+          <dl>
+            <dt class="dd-label required">Insertion Point</dt>
+            <dd>
+              <div class="custom-multi-select-dd margin-top single-select">
+                <div class="customHeightDropdown">
+                  <ss-multiselect-dropdown [options]="insertionPointOptions" [settings]="singleSelectSettings" formControlName="insertionPoint">
+                  </ss-multiselect-dropdown>
+                </div>
+              </div>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer text-right">
+      <button type="button" class="btn btn-default" (click)="resetForm()">RESET</button>
+      <button type="button" class="btn btn-success" (click)="saveForm(creativeForm)">SAVE</button>
+    </div>
+  </form>
+</div>
+<div *ngIf="!showForm && isCreativeCreatePermission" class="add-button">
+  <button md-fab (click)="toggleForm()"><md-icon>add</md-icon></button>
+</div>

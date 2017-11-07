@@ -1,0 +1,294 @@
+
+/* Login page */
+
+.fl{float:left;}
+.fr{float:right;}
+.center{text-align: center}
+.full-width {width: 92%;}
+.marTB10{margin: 10px 0px;}
+.marT10{margin-top: 10px;}
+.marT20{margin-top: 20px;}
+.marT3{margin-top:3px;}
+.pointer{cursor: pointer}
+$eyeIconColor: #ddd;
+$eyeActiveIconColor: #141B4D;
+.clearfix:before,.clearfix:after{content: ''; display: table;}
+.clearfix:after{clear: both;}
+.block{display: block;}
+
+
+.body-container{
+
+        background: url("../../../assets/images/login_bckground.jpg") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        width:100%;
+        height:100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+}
+.login-slider{
+    .carousel-caption{
+        width: 100%;
+        height: 100%;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        padding: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+}
+.login-content{
+        background-color: transparent;
+        position:relative;
+        top:50%;
+        width:1024px;
+        max-width:100%;
+        height:538px;
+
+        border-radius: 8px;
+        transform:translateY(-50%);
+        overflow: hidden;
+        margin: auto;
+        .login-slider{
+            width: 55%;
+            height: 100%;
+            .login-carousal{
+                width: 100%;
+                height:100%;
+                border-top-left-radius: 8px;
+                border-bottom-left-radius: 8px;
+            }
+        }
+        .login-form{
+            width: 45%;
+            height: 100%;
+            background-color: #fff;
+            border-top-right-radius: 5px;
+            padding: 35px 50px;
+            .sign-head {
+                font-size:35px;
+                color:#939393;
+                text-align:center;
+                margin-top:10px;
+                text-transform:uppercase;
+                font-weight: 300;
+            }
+            .user-icon{
+                background: url("../../../assets/images/slicing.png") no-repeat  -63px 0px;
+                width: 25px;
+                height: 35px;
+                background-size: 193px;
+            }
+            .pass-icon{
+              background: url("../../../assets/images/slicing.png") no-repeat -10px 0px;
+              width: 25px;
+              height: 35px;
+              background-size: 193px;
+            }
+            .lgn-btn{
+                background-color: #4CB050;
+                color: #fff;
+                width: 100%;
+                text-align: center;
+                padding: 10px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            .signup-btn{
+                width: 100%;
+                text-align: center;
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid #333;
+                cursor: pointer;
+                font-weight: bold
+            }
+            .error-message{
+                width: 100%;
+                text-align: center;
+                padding: 2px;
+                border-radius: 2px;
+                margin-top:3px;
+                background-color: #FFE2E2;
+                color: #FF0000;
+                font-size: 12px;
+            }
+            .rememberme{
+                margin-top: 10px;
+                .mat-checkbox-frame{
+                border-width: 1px !important;
+                }
+                label{
+                    font-size: 12px;
+                    font-weight: 400;
+                }
+            }
+
+        }
+        .signIn-form{
+          .input-field{
+            .full-width{
+              width: 100%;
+            }
+          }
+          .signUpBtn{
+            text-transform: uppercase;
+            padding: 10px;
+            font-size: 18px;
+            width: 49%;
+          }
+        }
+        .SignInVerified{
+          .checkIcon{
+            background: url("../../../assets/images/slicing.png") no-repeat;
+            background-position: -429px -670px;
+            width: 63px;
+            height: 63px;
+            display: block;
+            margin: 5px auto;
+          }
+          h3{
+            color: #4caf50;
+            font-size: 38px;
+            text-transform: uppercase;
+            margin-top: 0;
+            text-align: center;
+          }
+          .subHead{
+            font-size: 16px;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-align: center;
+          }
+          hr{
+            width: 70%;
+            margin: 20px auto;
+          }
+        }
+}
+
+.fa-eye {
+  cursor: pointer;
+  position: absolute;
+  right: 3px;
+  top: 5px;
+  color: $eyeIconColor;
+  &.active {
+    color: $eyeActiveIconColor;
+  }
+}
+
+
+.carousel {
+  width:100%;
+  height:100%;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  .carousel-inner {
+    height: 100%;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    .carousel-item{
+      height: 100%;
+      width:100%;
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+      .item{
+        height: 100%;
+        width:100%;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+        img{
+          height: 100%;
+          width:100%;
+          border-top-left-radius: 8px;
+          border-bottom-left-radius: 8px;
+        }
+      }
+    }
+  }
+  .carousel-control{
+    display: none;
+  }
+}
+
+
+.carousel-indicators li {
+  width: 30px;
+  height: 6px;
+  margin: 4px;
+  border-radius: 4px;
+  background-color: rgba(255,255,255,0.4);
+  border: none;
+  &.active {
+    width: 30px;
+    height: 6px;
+    margin: 4px;
+  }
+}
+
+.carousel-caption {
+  padding-bottom: 155px;
+  img{
+    width:180px !important;
+    margin: 20px 0px;
+  }
+  p{text-transform: uppercase;
+    font-weight: 400
+  }
+}
+
+@media only screen and (max-width: 1030px) {
+    .full-width {width: 80%;}
+    .login-content{
+        width:800px;
+        height:500px;
+    }
+}
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : portrait) {
+  /* STYLES GO HERE */
+  .login-content{
+      width:750px;
+      height:500px;
+    }
+}
+
+
+@media only screen and (max-width: 766px) {
+  .login-content{
+      width:100%;
+      height:100%;
+      border-radius: 0;
+      top:0%;
+      -webkit-transform: translateY(0%);
+      transform: translateY(0%);
+      overflow: auto;
+      .login-slider{
+          width: 100%;
+          height: 250px;
+      }
+      .login-form{
+          width: 100%;
+          height: auto;
+          background-color: #fff;
+          border-top-right-radius: 5px;
+          padding: 35px 50px;
+      }
+  }
+}

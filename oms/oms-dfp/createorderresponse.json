@@ -1,0 +1,70 @@
+[
+    {
+        "id": 2167532604,
+        "name": "OMS_Int_VPZ_1210_01",
+        "startDateTime": {
+            "date": {
+                "year": 2017,
+                "month": 10,
+                "day": 18
+            },
+            "hour": 4,
+            "minute": 0,
+            "second": 0,
+            "timeZoneID": "America/New_York"
+        },
+        "endDateTime": {
+            "date": {
+                "year": 2018,
+                "month": 10,
+                "day": 18
+            },
+            "hour": 4,
+            "minute": 0,
+            "second": 0,
+            "timeZoneID": "America/New_York"
+        },
+        "unlimitedEndDateTime": false,
+        "status": {
+            "value": "DRAFT"
+        },
+        "isArchived": false,
+        "notes": null,
+        "externalOrderId": 0,
+        "poNumber": null,
+        "currencyCode": "USD",
+        "advertiserId": 29766864,
+        "advertiserContactIds": null,
+        "agencyId": null,
+        "agencyContactIds": null,
+        "creatorId": 115818864,
+        "traffickerId": 115818864,
+        "secondaryTraffickerIds": null,
+        "salespersonId": null,
+        "secondarySalespersonIds": null,
+        "totalImpressionsDelivered": 0,
+        "totalClicksDelivered": 0,
+        "totalViewableImpressionsDelivered": null,
+        "totalBudget": {
+            "currencyCode": "USD",
+            "microAmount": 0
+        },
+        "appliedLabels": null,
+        "effectiveAppliedLabels": null,
+        "lastModifiedByApp": "ADX DFP ",
+        "isProgrammatic": false,
+        "appliedTeamIds": null,
+        "lastModifiedDateTime": {
+            "date": {
+                "year": 2017,
+                "month": 10,
+                "day": 18
+            },
+            "hour": 0,
+            "minute": 10,
+            "second": 4,
+            "timeZoneID": "PST8PDT"
+        },
+        "customFieldValues": null
+    }
+]

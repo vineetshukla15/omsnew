@@ -1,0 +1,62 @@
+<div class="panel panel-default custom-container" *ngIf="!showForm">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      Ad Units
+    </div>
+    <div class="pull-right">
+      <div class="customCheckbox checkboxHeaderStyle">
+        <div class="mat-checkbox-layout checkbox-active">
+          <md-checkbox [(ngModel)]="showInactiveAdUnit" (change)="showInactiveAdUnits()">Show Inactive Ad Units</md-checkbox>
+        </div>
+      </div>
+      <dt-search [ddArray]="adUnitSearchTableDD" (onDTSearch)="adUnitSearchEvent($event)"></dt-search>
+    </div>
+  </div>
+  <div class="panel-body noPadding transparent-bg">
+    <dt-table [config]='adUnitListDTConfig' [reload]="adUnitListRefresh" [searchColIndex]="adUnitListSearchMOdel.colIndex" [searchText]="adUnitListSearchMOdel.searchTxt"
+      (onMenuSelect)="onadUnitTableMenuSelect($event)"></dt-table>
+  </div>
+</div>
+<div *ngIf="showForm" class="panel panel-default custom-container noBottomMargin noBottomRadius">  
+    <div class="panel-heading">
+      <div class="pull-left headingContainer">
+        <span class="heading-arrow" (click)="backToTable();"></span> Ad Unit
+      </div>
+      <div class="pull-right customCheckbox" style="margin-top:7px; margin-right:10px;">
+        <div class="mat-checkbox-layout pad-10 checkbox-active">
+          <md-checkbox [(ngModel)]="newadUnit.active">Active</md-checkbox>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <form [formGroup]="adUnitForm">
+      <div class="row">
+        <div class="col-xs-12 required-error-message" *ngIf="errorMessage">{{errorMessage}}</div>
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl required">
+            <input (keypress)="keypressEventHandler($event)" mdInput type="text" placeholder="Name"  formControlName="name" (click)="removeValidators(adUnitForm.controls['name'],false)" [ngClass]="{'has-error':!adUnitForm.controls['name'].valid}"
+              [(ngModel)]="newadUnit.name" [formControl]="adUnitForm.controls['name']"/>
+
+          </md-input-container>
+        </div>
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl required">
+            <input mdInput type="text" placeholder="Display Name" formControlName="displayName" (click)="removeValidators(adUnitForm.controls['displayName'],false)"
+              [ngClass]="{'has-error':!adUnitForm.controls['displayName'].valid}" [(ngModel)]="newadUnit.displayName" [formControl]="adUnitForm.controls['displayName']"
+            />
+
+          </md-input-container>
+        </div>
+
+      </div>
+      </form>
+    </div>
+    <div class="panel-footer text-right">
+      <button type="button" class="btn btn-default" (click)="resetForm()">RESET</button>
+      <button type="button" class="btn btn-success" (click)="saveForm(adUnitForm)">SAVE</button>
+    </div>  
+</div>
+
+<div *ngIf="!showForm && isAdUnitCreatePermission" class="add-button">
+  <button md-fab (click)="toggle()"><md-icon>add</md-icon></button>
+</div>

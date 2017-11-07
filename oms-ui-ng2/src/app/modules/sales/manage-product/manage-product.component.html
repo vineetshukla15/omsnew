@@ -1,0 +1,258 @@
+<div class="panel panel-default custom-container" *ngIf="!showForm">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      Products
+    </div>
+    <div class="pull-right">
+      <dt-search [ddArray]="productSearchTableDD" (onDTSearch)="productSearchEvent($event)"></dt-search>
+    </div>
+  </div>
+  <div class="panel-body noPadding transparent-bg">
+    <dt-table [config]='productListDTConfig' [reload]="productListRefresh" [searchColIndex]="productListSearchModel.colIndex"
+      [searchText]="productListSearchModel.searchTxt" (onMenuSelect)="onProductTableMenuSelect($event)"></dt-table>
+  </div>
+</div>
+
+<div *ngIf="showForm" class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading bottom-border">
+    <div class="pull-left headingContainer">
+      <span class="heading-arrow" (click)="backToTable();"></span> Product
+    </div>
+  </div>
+</div>
+<form [formGroup]="productForm">
+<div *ngIf="showForm" class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      Basic Details
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="col-xs-12 required-error-message" *ngIf="errorMessage">{{errorMessage}}</div>
+
+      <div class="row ">
+
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl required" [ngClass]="{'has-error':!productForm.controls['name'].valid}">
+            <input placeholder="Name" mdInput type="text" name="name" [(ngModel)]="newProduct.name" (click)="removeValidators(productForm.controls['name'],false)"
+              [formControl]="productForm.controls['name']" />
+          </md-input-container>
+        </div>
+
+        <div class="col-sm-4 col-md-4">
+          <dl>
+            <dt class="dd-label required">Type</dt>
+            <dd>
+              <div class="custom-multi-select-dd margin-top">
+                <div class="btn-group fullWidDrop dropdown" dropdown>
+                  <button dropdownToggle type="button" class="btn dropdown-toggle">
+                    {{selectedTypeDD}}  <span class="caret"></span>
+                  </button>
+                  <ul *dropdownMenu class="custom-ms-dd w-heading dropdown-menu" role="menu">
+                    <div *ngIf="productTypeDD">
+                      <span *ngFor='let key of keysGetter(productTypeDD)'>
+                  <div class="select-dd-heading"> {{key}}</div>
+                  <li role="menuitem" *ngFor='let data of productTypeDD[key]' [ngClass]="{'is-selected': data['isSelected']}">
+                    <a class="dropdown-item" href="javascript:void(0);" (click)= "(data['isSelected'] = !data['isSelected']);typeOptionsChange(productTypeDD, data)">
+                      <div class="select-options">
+                        <div >{{data.subTypeName ? data.subTypeName : '-'}}</div>
+                      </div>
+                    </a>
+                  </li>
+                </span>
+                    </div>
+                  </ul>
+                </div>
+              </div>
+            </dd>
+          </dl>
+        </div>
+
+        <div class="col-sm-4 col-md-4">
+          <dl>
+            <dt class="dd-label required">Ad Unit</dt>
+            <dd>
+              <div class="custom-multi-select-dd margin-top" [ngClass]="{'has-error':!productForm.controls['adUnit'].valid}">
+                <ss-multiselect-dropdown [options]="adUnitOptions" [texts]="textSetting" [settings]="multiSelectSelectSettings" name="adUnit"
+                  formControlName="adUnit" (click)="removeValidators(productForm.controls['adUnit'],false)" [(ngModel)]="adUnitOptionsModel"
+                  (ngModelChange)="onChange($event)">
+                </ss-multiselect-dropdown>
+              </div>
+            </dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4 col-md-4">
+          <dl>
+            <dt class="dd-label required">Rate Type</dt>
+            <dd>
+              <div class="custom-multi-select-dd margin-top" [ngClass]="{'has-error':!productForm.controls['rate'].valid}">
+                <div class="customHeightDropdown">
+                  <ss-multiselect-dropdown name="rate" [settings]="singleSelectSettings" [options]="rateOptions" [(ngModel)]="rateOptionsModel"
+                    formControlName="rate" (click)="removeValidators(productForm.controls['rate'],false)" (ngModelChange)="onChange($event)">
+                  </ss-multiselect-dropdown>
+                </div>
+              </div>
+            </dd>
+          </dl>
+        </div>
+
+        <div class="col-sm-4 col-md-4">
+          <dl>
+            <dt class="dd-label required">Creative</dt>
+            <dd>
+              <div class="custom-multi-select-dd margin-top" [ngClass]="{'has-error':!productForm.controls['creative'].valid}">
+                <div class="customHeightDropdown">
+                  <ss-multiselect-dropdown [options]="creativeOptions" [texts]="textSetting" [settings]="multiSelectSelectSettings" name="creative"
+                    [(ngModel)]="creativeOptionsModel" formControlName="creative" (click)="removeValidators(productForm.controls['creative'],false)"
+                    (ngModelChange)="onChange($event)">
+                  </ss-multiselect-dropdown>
+                </div>
+              </div>
+            </dd>
+          </dl>
+        </div>
+      </div>
+  </div>
+</div>
+</form>
+    <div *ngIf="showForm" class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      Targeting
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-6 col-md-6">
+        <dl>
+          <dt class="dd-label">Target Type</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <ss-multiselect-dropdown [options]="targetTypeOptions" [settings]="singleSelectSettings" [(ngModel)]="targetTypeOptionsModel"
+                [ngModelOptions]="{standalone: true}" (ngModelChange)="onTargetTypeChange($event)">
+              </ss-multiselect-dropdown>
+            </div>
+          </dd>
+        </dl>
+        <span *ngIf="targetTypeOptionsModel?.length > 0">
+        <select-list [dataList]="audienceTargetValues" [type]="'multi-select'" (onSelect)="onAudienceTargetValuesSelect($event)"></select-list>
+        </span>
+      </div>
+      <div class="col-sm-6 col-md-6">
+        <!--<dt-table [config]='targetTypeConfig' [data]="newRowsAdded" (onMenuSelect)="onTargetTypeMenuSelect($event)"></dt-table>-->
+        <dt-table-clientside [config]='targetTypeConfig' [data]="newRowsAdded" (onMenuSelect)="onTargetTypeMenuSelect($event)"></dt-table-clientside>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4 " *ngIf="targetTypeOptionsModel?.length > 0">
+        <button type="button" class="btn btn-sm btn-default" (click)="addTargetType()" [disabled]="disabledTargetType">Add</button>
+      </div>
+    </div>
+  </div>
+  </div>  
+ 
+
+
+<div *ngIf="showForm" class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      Delivery
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Delivery Impressions</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [settings]="singleSelectSettings" [options]="deliveryOptions" [(ngModel)]="deliveryOptionsModel">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Display Creatives</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [settings]="singleSelectSettings" [options]="displayCreativeOptions" [(ngModel)]="displayCreativeOptionsModel">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Rotate Creatives</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [settings]="singleSelectSettings" [options]="rotateCreativeOptions" [(ngModel)]="rotateCreativeOptionsModel">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Priority</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [settings]="singleSelectSettings" [options]="priorityOptions" [(ngModel)]="priorityOptionsModel">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl required">
+          <input placeholder="Value" mdInput type="text" [(ngModel)]="newProduct.priorityValues"/>
+        </md-input-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showForm" class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      Notes
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <!--      <md-input-container class="full-width fl" [ngClass]="{'has-error':!productForm.controls['description'].valid}">
+        <textarea placeholder="Description" mdInput type="text" name='description' [(ngModel)]="newProduct.description" (click)="removeValidators(productForm.controls['description'],false)"
+          [formControl]="productForm.controls['description']" maxlength="500"></textarea>
+      </md-input-container>
+-->
+        <md-input-container class="full-width fl">
+          <textarea placeholder="Description" mdInput type="text" name='description' [(ngModel)]="newProduct.description" maxlength="500"></textarea>
+        </md-input-container>
+      </div>
+    </div>
+
+    <div class="panel-footer text-right">
+      <button type="button" class="btn btn-default" (click)="resetForm()">RESET</button>
+      <button type="button" class="btn btn-success" (click)="saveForm(productForm)">SAVE</button>
+    </div>
+  </div>
+</div>
+<div *ngIf="!showForm && isProductCreatePermission" class="add-button">
+  <button md-fab (click)="toggleForm()"><md-icon>add</md-icon></button>
+</div>

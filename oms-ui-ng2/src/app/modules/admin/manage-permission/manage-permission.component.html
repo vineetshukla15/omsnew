@@ -1,0 +1,119 @@
+<!--<div bsModal #htsModal="bs-modal" class="modal fade custom-modal-css" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+ aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="customTable">
+
+					<div class="dt-container">
+						<img [ngClass]="{'showDT': !isUserSearchDataLoaded,'hideDT': isUserSearchDataLoaded}" class="loader" src="./assets/images/data-table/loader.gif"
+						/>
+						<div [ngClass]="{'showDT': isUserSearchDataLoaded,'hideDT': !isUserSearchDataLoaded}">
+							<table id="searchUserTable" class="row-border hover">
+								<thead>
+									<tr>
+										<th>LOGIN NAME</th>
+										<th>FIRST NAME</th>
+										<th>LAST NAME</th>
+										<th>EMAIL</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr *ngFor="let user of searchUserList">
+										<td (click)="selectedUser(user); htsModal.hide()">{{ user.loginName }}</td>
+										<td (click)="selectedUser(user); htsModal.hide()">{{ user.firstName }}</td>
+										<td (click)="selectedUser(user); htsModal.hide()">{{ user.lastName }}</td>
+										<td (click)="selectedUser(user); htsModal.hide()">{{ user.emailId }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="customTable">
+	<div class="menu-search">
+		<i class="fa fa-search" aria-hidden="true"></i>
+		<input name="search" placeholder="Search" type="text" [(ngModel)]="userTableSearch" (ngModelChange)="onUserTableSearch($event,userSearchSelectedDD['colIndex']);"
+		/>
+		<div class="custom-dropdown" dropdown>
+			<button dropdownToggle type="button" class=" dropdown-toggle">
+          <span class="but-text">{{userSearchSelectedDD["labelName"]}}</span><span class="caret"></span>
+        </button>
+			<ul *dropdownMenu class="dropdown-menu" role="menu">
+				<li role="menuitem" *ngFor="let item of userSearchTableDD">
+					<a class="dropdown-item" href="javaScript:void(0);" (click)="onUserTableSearchDD(item);">
+            {{item.labelName}}
+          </a>
+				</li>
+			</ul>
+		</div>
+
+		<button type="button" class="btn btn-custom" (click)="showAddNewUserForm()">+ ADD PERMISSION</button>
+	</div>
+	<div class="dt-container">
+		<img [ngClass]="{'showDT': !isPermissionDataLoaded,'hideDT': isPermissionDataLoaded}" class="loader" src="./assets/images/data-table/loader.gif"
+		/>
+		<div [ngClass]="{'showDT': isPermissionDataLoaded,'hideDT': !isPermissionDataLoaded}">
+			<table id="permissionTable" class="row-border hover">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Link</th>
+						<th>Group</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let user of filterUserList" (click)="editUser(user.userId)">
+						<td>{{ user.loginName }}</td>
+						<td>{{ user.firstName }}</td>
+						<td>{{ user.lastName }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<form #form="ngForm" (ngSubmit)="onSubmit()" class="form-horizontal" *ngIf="showingAddSection">
+	<div class="formSection col-sm-12 noPadding">
+		<div class="formHeader col-xs-12">
+			<div class="formTitle col-sm-6">Permission Detail</div>
+		</div>
+		<div class="formInputFields col-sm-12 noPadding">
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label class="control-label col-xs-12">Name</label>
+					<input type="text" [(ngModel)]="newUser.firstName" [ngModelOptions]="{standalone: true}" class="form-control">
+
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label class="control-label col-xs-12">Link</label>
+					<input type="text" [(ngModel)]="newUser.lastName" [ngModelOptions]="{standalone: true}" class="form-control">
+
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label class="control-label col-xs-12">Group</label>
+					<select [(ngModel)]="newRole.roleID" [ngModelOptions]="{standalone: true}">
+                      <option *ngFor="let role of roles" value= {{role.roleID}}>
+                         {{role.roleName}}
+                      </option>
+                    </select>
+				</div>
+			</div>
+		</div>
+		<div class="formButtons col-sm-12">
+			<input type="submit" value="Save" (click)="saveForm()" class="btn btn-success">
+			<input type="reset" value="Reset" (click)="resetForm()" class="btn btn-default">
+		</div>
+	</div>
+</form>-->

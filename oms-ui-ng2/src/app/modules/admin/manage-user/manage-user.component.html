@@ -1,0 +1,163 @@
+<div class="panel panel-default custom-container" *ngIf="!showForm">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      Users
+    </div>
+
+    <div class="pull-right">
+      <div class="customCheckbox checkboxHeaderStyle">
+        <div class="mat-checkbox-layout checkbox-active">
+          <md-checkbox [(ngModel)]="showInactiveUser" (change)="showInactiveUsers()">Show Inactive Users</md-checkbox>
+        </div>
+      </div>
+      <dt-search [ddArray]="userSearchTableDD" (onDTSearch)="userSearchEvent($event)"></dt-search>
+    </div>
+  </div>
+
+  <div class="panel-body noPadding transparent-bg">
+    <dt-table [config]='userListDTConfig' [reload]="userListRefresh" [searchColIndex]="userListSearchModel.colIndex" [searchText]="userListSearchModel.searchTxt"
+      (onMenuSelect)="onUserTableMenuSelect($event)"></dt-table>
+  </div>
+  <div *ngIf="!showForm && isUserCreatePermission" class="add-button">
+    <button md-fab (click)="openShowForm()"><md-icon>add</md-icon></button>
+  </div>
+</div>
+<div *ngIf="showForm" class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      <span class="heading-arrow" (click)="backToTable();"></span> User
+    </div>
+    <div class="pull-right customCheckbox" style="margin-top:10px; margin-right:10px;">
+      <div class="mat-checkbox-layout pad-10 checkbox-active">
+        <md-checkbox [(ngModel)]="newUser.enabled">Active</md-checkbox>
+
+      </div>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-xs-12 error-message" *ngIf="errorMessage">{{errorMessage}}</div>
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl required">
+          <input type="text" placeholder="First Name" class="col-sm-8 col-md-8" [(ngModel)]="newUser.firstName" (click)="removeMessage()"
+            [ngModelOptions]="{standalone: true}" [disabled]="disabledFormElements" mdInput />
+          <span class="fa fa-search search-icon" *ngIf="!editMode" (click)="openDialog(newUser.firstName,'firstName')"></span>
+        </md-input-container>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl required">
+          <input type="text" placeholder="Last Name" [(ngModel)]="newUser.lastName" (click)="removeMessage()" [disabled]="disabledFormElements"
+            [ngModelOptions]="{standalone: true}" mdInput />
+          <span class="fa fa-search search-icon" *ngIf="!editMode" (click)="openDialog(newUser.lastName,'lastName')"></span>
+        </md-input-container>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl required">
+          <input type="text" placeholder="Login Name" [(ngModel)]="newUser.username" (click)="removeMessage()" [disabled]="disabledFormElements"
+            [ngModelOptions]="{standalone: true}" mdInput />
+        </md-input-container>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl required">
+          <input placeholder="Email" mdInput type="text" [(ngModel)]="newUser.emailId" (click)="removeMessage()" [disabled]="disabledFormElements">
+        </md-input-container>
+      </div>
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label">Role</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="roleOptions" [settings]="singleSelectSettings" [(ngModel)]="roleOptionsModel" [ngModelOptions]="{standalone: true}">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+
+
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showForm" class="panel panel-default custom-container">
+    <div class="panel-heading" (click)="(userAddressHeight = userAddressHeight ? 0 : userAddress.scrollHeight );(isOpenUserAddress = !isOpenUserAddress);">
+      <div class="pull-left headingContainer">
+        User Address
+      </div>
+      <div class="pull-right">
+        <i class="fa accordion-icon" [ngClass]="{'fa-minus': isOpenUserAddress, 'fa-plus': !isOpenUserAddress}"></i>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="row slideDown" [style.height]="userAddressHeight + 'px'" #userAddress>
+        <div class="row">
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input type="text" mdInput placeholder="Address Line 1" (click)="removeMessage()" [(ngModel)]="newUser.address1" [ngModelOptions]="{standalone: true}"
+              />
+            </md-input-container>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input placeholder="Address Line 2" mdInput type="text" (click)="removeMessage()" [(ngModel)]="newUser.address2" [ngModelOptions]="{standalone: true}"
+              />
+            </md-input-container>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input type="text" placeholder="State" mdInput (click)="removeMessage()" [(ngModel)]="newUser.state" [ngModelOptions]="{standalone: true}"
+              />
+            </md-input-container>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input placeholder="City" mdInput type="text" (click)="removeMessage()" [(ngModel)]="newUser.city" [ngModelOptions]="{standalone: true}"
+              />
+            </md-input-container>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input placeholder="Zip" mdInput type="text" (click)="removeMessage()" [(ngModel)]="newUser.zip" [ngModelOptions]="{standalone: true}"
+              />
+            </md-input-container>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input placeholder="Country" mdInput type="text" (click)="removeMessage()" [(ngModel)]="newUser.country" [ngModelOptions]="{standalone: true}"
+              />
+            </md-input-container>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input type="text" maxlength="10" placeholder="Telephone" mdInput (click)="removeMessage()" [(ngModel)]="newUser.telelphoneNo" [ngModelOptions]="{standalone: true}"
+              />
+            </md-input-container>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input type="text" maxlength="10" placeholder="Mobile" mdInput (click)="removeMessage()" [(ngModel)]="newUser.mobileNo" [ngModelOptions]="{standalone: true}"
+              />
+            </md-input-container>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input type="text" placeholder="Fax" mdInput (click)="removeMessage()" [(ngModel)]="newUser.faxNo" [ngModelOptions]="{standalone: true}">
+            </md-input-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer text-right">
+      <button type="button" class="btn btn-default" (click)="resetForm();">RESET</button>
+      <button type="button" class="btn btn-success" (click)="saveForm();">SAVE</button>
+    </div>
+  </div>
+  <!--<div *ngIf="!showForm" class="add-button">
+    <button md-fab (click)="openShowForm()"><md-icon>add</md-icon></button>
+  </div>-->

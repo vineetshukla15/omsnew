@@ -1,0 +1,85 @@
+<div class="panel panel-default custom-container" *ngIf="!showForm">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      Ad Size
+    </div>
+    <div class="pull-right">
+      <dt-search [ddArray]="creativeSearchTableDD" (onDTSearch)="creativeSearchEvent($event)"></dt-search>
+    </div>
+  </div>
+  <div class="panel-body noPadding transparent-bg">
+    <dt-table [config]='creativeListDTConfig' [reload]="creativeListRefresh" [searchColIndex]="creativeListSearchModel.colIndex"
+      [searchText]="creativeListSearchModel.searchTxt" (onMenuSelect)="onCreativeTableMenuSelect($event)"></dt-table>
+  </div>
+</div>
+
+
+<div *ngIf="showForm" class="panel panel-default custom-container">
+  <form [formGroup]="creativeForm">
+    <div class="panel-heading">
+      <div class="pull-left headingContainer">
+        <span class="heading-arrow" (click)="backToTable();"></span> Ad Size
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-xs-12 required-error-message" *ngIf="errorMessage">{{errorMessage}}</div>
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl required">
+            <input (keypress)="OnlyAlphabets($event)" placeholder="Name" mdInput type="text" (click)="removeValidators(creativeForm.controls['name'],false)" [ngClass]="{'has-error':!creativeForm.controls['name'].valid}"
+              [(ngModel)]="newCreative.name" [formControl]="creativeForm.controls['name']" />
+          </md-input-container>
+        </div>
+
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl required">
+            <input OnlyNumber='true' type="number" placeholder="Width 1" (click)="removeValidators(creativeForm.controls['width1'],false)" [ngClass]="{'has-error':!creativeForm.controls['width1'].valid}"
+              mdInput [(ngModel)]="newCreative.width1" [formControl]="creativeForm.controls['width1']" min=0/>
+
+          </md-input-container>
+        </div>
+
+
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl required">
+            <input OnlyNumber='true' placeholder="Height 1" mdInput type="number" (click)="removeValidators(creativeForm.controls['height1'],false)" [ngClass]="{'has-error':!creativeForm.controls['height1'].valid}"
+              [(ngModel)]="newCreative.height1" [formControl]="creativeForm.controls['height1']" min=0/>
+
+          </md-input-container>
+        </div>
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl">
+            <input OnlyNumber='true' placeholder="Width 2" mdInput type="number" [(ngModel)]="newCreative.width2" [ngModelOptions]="{standalone: true}" min=0/>
+          </md-input-container>
+        </div>
+        <div class="col-sm-4 col-md-4">
+          <md-input-container class="full-width fl">
+            <input OnlyNumber='true' placeholder="Height 2" mdInput type="number" [(ngModel)]="newCreative.height2" [ngModelOptions]="{standalone: true}" min=0
+            />
+
+          </md-input-container>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <md-input-container class="full-width fl">
+            <textarea mdInput placeholder="Description" type="text" [(ngModel)]="newCreative.description" [ngModelOptions]="{standalone: true}"
+              maxlength="500"></textarea>
+          </md-input-container>
+
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer text-right">
+      <button type="button" class="btn btn-default" (click)="resetForm()">RESET</button>
+      <button type="button" class="btn btn-success" (click)="saveForm(creativeForm)">SAVE</button>
+    </div>
+  </form>
+</div>
+<div *ngIf="!showForm && isAdSizeCreatePermission" class="add-button">
+  <button md-fab (click)="toggleForm()"><md-icon>add</md-icon></button>
+</div>

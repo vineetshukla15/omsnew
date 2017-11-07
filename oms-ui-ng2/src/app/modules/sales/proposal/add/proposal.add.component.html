@@ -1,0 +1,639 @@
+<alert type="success" style="position: fixed; top: 12%; width: 80%; z-index: 9999; text-align: center;" [hidden]="isAlertMessageBoxVisible">
+  <strong>{{successMessage}}</strong>
+</alert>
+<div class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading bottom-border">
+    <div>
+      <div class="row">
+        <div class="col-sm-2 col-md-2">
+          <div class="pull-left headingContainer">
+            <span class="heading-arrow" (click)="backToTable()"></span> Add Proposal
+          </div>
+        </div>
+        <div class="col-sm-10 col-md-10">
+          <span title="Approve" class="roundCircleContent hide"><i class="fa fa-check " aria-hidden="true"></i></span>
+          <span title="Reject" class="roundCircleContent hide"><i class="fa fa-times" aria-hidden="true"></i></span>
+          <span title="Admin approval" class="roundCircleContent hide"><i class="fa fa-user" aria-hidden="true"></i></span>
+          <span title="Legal approval" class="roundCircleContent hide"><i class="fa fa-link" aria-hidden="true"></i></span>
+          <span title="Pricing approval" class="roundCircleContent hide"><i class="fa fa-usd" aria-hidden="true"></i></span>
+          <span title="Archieved" class="roundCircleContent hide"><i class="fa fa-minus-circle" aria-hidden="true"></i></span>
+          <span title="Inprogress" class="roundCircleContent hide"><i class="fa fa-hourglass-1" aria-hidden="true"></i></span>
+          <span title="Copy" class="roundCircleContent disable-span"><i class="fa fa-clone" aria-hidden="true"></i></span>
+          <dl class="w100 cust-right header-drop-down">
+            <dt class="dd-label">Version</dt>
+            <dd>
+              <div class="custom-multi-select-dd margin-top single-select">
+                <div class="customHeightDropdown">
+                  <ss-multiselect-dropdown [options]="versionOptions" [settings]="singleSelectSettings" [(ngModel)]="versionOptionsModel" [ngModelOptions]="{standalone: true}"
+                    [disabled]=true>
+                  </ss-multiselect-dropdown>
+                </div>
+              </div>
+            </dd>
+          </dl>
+          <dl class="w200 cust-right header-drop-down">
+            <dt class="dd-label">Assigned To</dt>
+            <dd>
+              <div class="custom-multi-select-dd margin-top single-select">
+                <!-- <div class="customHeightDropdown">
+                  <ss-multiselect-dropdown [options]="assignToOptions" [settings]="singleSelectSettings" [(ngModel)]="assignToOptionsModel"
+                    [ngModelOptions]="{standalone: true}">
+                  </ss-multiselect-dropdown>
+                </div> -->
+                <div class="custom-multi-select-dd margin-top">
+                  <div class="btn-group fullWidDrop dropdown" dropdown>
+                    <button dropdownToggle type="button" class="btn dropdown-toggle">
+                        {{assignToDisplayName}}  <span class="caret"></span>
+                      </button>
+                    <ul *dropdownMenu class="custom-ms-dd w-heading dropdown-menu" role="menu">
+                      <div>
+                        <span *ngFor='let key of keysGetter(assignToOptions || [])'>
+                                <div class="select-dd-heading"> {{key || 'Unknown Role'}}</div>
+                                <li role="menuitem" *ngFor='let data of assignToOptions[key]' [ngClass]="{'selected': selectedId == data.id}">
+                                  <a class="dropdown-item" href="javascript:void(0);" (click)= "typeOptionsChange(data);">
+                                    <div class="select-options normal-font-weight">
+                                      <div >{{data.firstName + ' '+ data.lastName}}</div>
+                                    </div>
+                                  </a>
+                                </li>
+                              </span>
+                      </div>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      Proposal Details
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="col-xs-12 required-error-message" *ngIf="errorMessage">{{errorMessage}}</div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl required">
+          <input mdInput type="text" placeholder="Name" [ngModel]="newProposal.name" (ngModelChange)="onchangeFun($event, 'nameError', 'name')"
+          />
+        </md-input-container>
+        <span class="col-sm-4 col-md-4 errorMsgClass" *ngIf="errorObj.nameError">{{errorObj.nameError}}</span>
+      </div>
+
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label">Advertiser</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="advertiserOptions" [settings]="singleSelectSettings" [(ngModel)]="advertiserModel" [ngModelOptions]="{standalone: true}">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label">Agency</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="agencyOptions" [settings]="singleSelectSettings" [(ngModel)]="agencyModel" [ngModelOptions]="{standalone: true}"
+                  (ngModelChange)="onChange()">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl">
+          <input placeholder="Assigned By" mdInput type="text" [(ngModel)]="assignedBy" [ngModelOptions]="{standalone: true}" [disabled]="true"
+          />
+        </md-input-container>
+      </div>
+
+      <dl class="col-sm-4 col-md-4">
+        <dt class="dd-label required">Media Planner</dt>
+        <dd>
+          <div class="custom-multi-select-dd margin-top single-select">
+            <div class="customHeightDropdown">
+              <ss-multiselect-dropdown [options]="mediaPlannerOptions" [settings]="singleSelectSettings" [ngModel]="mediaPlannerOptionsModel"
+                [ngModelOptions]="{standalone: true}" (ngModelChange)="onMediaPlannerChange($event); onDropDownchangeFun($event, 'MediaPlannerError', 'mediaPlannerOptionsModel')">
+              </ss-multiselect-dropdown>
+            </div>
+          </div>
+        </dd>
+
+        <span class="col-sm-4 col-md-4 errorMsgClass" *ngIf="errorObj.MediaPlannerError">{{errorObj.MediaPlannerError}}</span>
+      </dl>
+
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label required">Trafficker</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="traffickerOptions" [settings]="singleSelectSettings" [ngModel]="traffickerModel" [ngModelOptions]="{standalone: true}"
+                  (ngModelChange)="onDropDownchangeFun($event, 'traffickerModelError', 'traffickerModel')">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+
+          <span class="col-sm-4 col-md-4 errorMsgClass" *ngIf="errorObj.traffickerModelError">{{errorObj.traffickerModelError}}</span>
+        </dl>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <dl>
+          <dt class="dd-label">Sales Category</dt>
+          <dd>
+            <div class="custom-multi-select-dd margin-top single-select">
+              <div class="customHeightDropdown">
+                <ss-multiselect-dropdown [options]="saleCategoryOptions" [settings]="singleSelectSettings" [(ngModel)]="saleCategoryModel"
+                  [ngModelOptions]="{standalone: true}">
+                </ss-multiselect-dropdown>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+
+    </div>
+
+    <div class="panel panel-default custom-container hs-acc noBottomMargin noBottomRadius">
+      <div class="panel-heading med-heading">
+        <div class="pull-left headingContainer">
+          Schedule
+        </div>
+        <span title="expand" class="roundCircleContent" (click)="showSchedule=!showSchedule"><i *ngIf="!showSchedule" class="fa fa-plus" aria-hidden="true"></i><i *ngIf="showSchedule" class="fa fa-minus" aria-hidden="true"></i></span>
+      </div>
+      <div *ngIf="showSchedule" class="panel-body">
+        <div class="row">
+
+          <div class="col-sm-4 col-md-4">
+            <div class="custom-date-picker">
+              <md-input-container class="required" (click)="calendarBtnClick($event, 'isNewCreatedDateOpen')">
+                <input #created mdInput [ngModel]="newProposal.created | date: 'dd-MMM-yyyy'" placeholder="Requested On" [readonly]="true"
+                  (ngModelChange)="onchangeFun($event, 'createdOnError', 'created')">
+                <button mdSuffix [mdDatepickerToggle]=""></button>
+              </md-input-container>
+              <div class="date-picker-container" *ngIf="calendarArr['isNewCreatedDateOpen']" (click)="clickOnDatepicker($event, 'isNewCreatedDateOpen')">
+                <datepicker [showWeeks]="false" [(ngModel)]="newProposal.created" [minDate]="currentDate" (selectionDone)="calendarArr['isNewCreatedDateOpen']=false"></datepicker>
+              </div>
+            </div>
+            <span class="col-sm-4 col-md-4 errorMsgClass" *ngIf="errorObj.createdOnError && !created.value">{{errorObj.createdOnError}}</span>
+
+          </div>
+
+          <div class="col-sm-4 col-md-4">
+            <div class="custom-date-picker">
+              <md-input-container class="required" (click)="calendarBtnClick($event, 'isDueDateOpen')">
+                <input #dueDate mdInput [ngModel]="newProposal.dueDate | date: 'dd-MMM-yyyy'" placeholder="Due On" [readonly]="true" (ngModelChange)="onchangeFun($event, 'dueDateError', 'dueDate')">
+                <button mdSuffix [mdDatepickerToggle]=""></button>
+              </md-input-container>
+              <div class="date-picker-container" *ngIf="calendarArr['isDueDateOpen']" (click)="clickOnDatepicker($event, 'isDueDateOpen')">
+                <datepicker [showWeeks]="false" [(ngModel)]="newProposal.dueDate" [minDate]="currentDate" (selectionDone)="calendarArr['isDueDateOpen']=false"></datepicker>
+              </div>
+            </div>
+
+            <span class="col-sm-4 col-md-4 errorMsgClass" *ngIf="errorObj.dueDateError && !dueDate.value">{{errorObj.dueDateError}}</span>
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="col-sm-4 col-md-4">
+            <div class="custom-date-picker">
+              <md-input-container class="required" (click)="calendarBtnClick($event, 'isStartDateOpen')">
+                <input #startDate mdInput [ngModel]="newProposal.startDate | date: 'dd-MMM-yyyy'" placeholder="Start Date" [readonly]="true"
+                  (ngModelChange)="onchangeFun($event, 'startDateError', 'startDate')">
+                <button mdSuffix [mdDatepickerToggle]=""></button>
+              </md-input-container>
+              <div class="date-picker-container" *ngIf="calendarArr['isStartDateOpen']" (click)="clickOnDatepicker($event, 'isStartDateOpen')">
+                <datepicker [showWeeks]="false" [(ngModel)]="newProposal.startDate" [minDate]="currentDate" (selectionDone)="calendarArr['isStartDateOpen']=false"></datepicker>
+              </div>
+
+              <span class="col-sm-4 col-md-4 errorMsgClass" *ngIf="errorObj.startDateError && !startDate.value">{{errorObj.startDateError}}</span>
+            </div>
+          </div>
+
+          <div class="col-sm-4 col-md-4">
+            <div class="custom-date-picker">
+              <md-input-container class="required" (click)="calendarBtnClick($event, 'isEndDateOpen')">
+                <input #endDate mdInput [ngModel]="newProposal.endDate | date: 'dd-MMM-yyyy'" placeholder="End Date" [readonly]="true" (ngModelChange)="onchangeFun($event, 'endDateError', 'endDate')">
+                <button mdSuffix [mdDatepickerToggle]=""></button>
+              </md-input-container>
+              <div class="date-picker-container" *ngIf="calendarArr['isEndDateOpen']" (click)="clickOnDatepicker($event, 'isEndDateOpen')">
+                <datepicker [showWeeks]="false" [(ngModel)]="newProposal.endDate" [minDate]="currentDate" (selectionDone)="calendarArr['isEndDateOpen']=false"></datepicker>
+              </div>
+            </div>
+
+            <span class="col-sm-4 col-md-4 errorMsgClass" *ngIf="errorObj.endDateError && !endDate.value">{{errorObj.endDateError}}</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel panel-default custom-container hs-acc noBottomMargin noBottomRadius">
+      <div class="panel-heading med-heading">
+        <div class="pull-left headingContainer">
+          Financial Details
+        </div>
+        <span title="expand" class="roundCircleContent" (click)="showFinancialDetails=!showFinancialDetails"><i *ngIf="!showFinancialDetails" class="fa fa-plus" aria-hidden="true"></i><i *ngIf="showFinancialDetails" class="fa fa-minus" aria-hidden="true"></i></span>
+      </div>
+      <div *ngIf="showFinancialDetails" class="panel-body">
+        <div class="row">
+          <div class="col-sm-4 col-md-4">
+            <dl>
+              <dt class="dd-label required">Pricing Model</dt>
+              <dd>
+                <div class="custom-multi-select-dd margin-top single-select">
+                  <div class="customHeightDropdown">
+                    <ss-multiselect-dropdown [options]="pricingModelOptions" [settings]="singleSelectSettings" [ngModel]="pricingModel" (ngModelChange)="onChange(); onDropDownchangeFun($event, 'pricingModelError', 'pricingModel')">
+                    </ss-multiselect-dropdown>
+                  </div>
+                </div>
+              </dd>
+            </dl>
+
+            <span class="col-sm-4 col-md-4 errorMsgClass" *ngIf="errorObj.pricingModelError">{{errorObj.pricingModelError}}</span>
+          </div>
+
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input placeholder="Agency Margin (%)" mdInput OnlyNumber='true' maxLimit='100' type="number" [(ngModel)]="newProposal.agencyMargin"
+                [ngModelOptions]="{standalone: true}" [disabled]="disabledAgencyMargin" />
+            </md-input-container>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl required">
+              <input mdInput OnlyNumber='true' autocomplete="off" placeholder="Budget" [ngModel]="newProposal.budget" (ngModelChange)="onchangeFun($event, 'budgetError', 'budget')"
+                min=0/>
+            </md-input-container>
+
+            <span class="col-sm-4 col-md-4 errorMsgClass" *ngIf="errorObj.budgetError">{{errorObj.budgetError}}</span>
+          </div>
+        </div>
+        <div class="row">
+
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input placeholder="Advertiser Discount" mdInput OnlyNumber='true' maxLimit='100' autocomplete="off" [(ngModel)]="newProposal.advertiserDiscount"
+                [ngModelOptions]="{standalone: true}" min=0 />
+            </md-input-container>
+          </div>
+
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input mdInput OnlyNumber='true' maxLimit='100' autocomplete="off" placeholder="Proposal Discount" [(ngModel)]="newProposal.proposalDiscount"
+                min=0/>
+            </md-input-container>
+          </div>
+          <!-- <div class="col-sm-4 col-md-4">
+            <dl>
+              <dt class="dd-label required">Pricing Model</dt>
+              <dd>
+                <div class="custom-multi-select-dd margin-top single-select">
+                  <div class="customHeightDropdown">
+                    <ss-multiselect-dropdown [options]="pricingModelOptions" [settings]="singleSelectSettings" [ngModel]="pricingModel" (ngModelChange)="onChange()" (ngModelChange)="onDropDownchangeFun($event, 'pricingModelError', 'pricingModel')">
+                    </ss-multiselect-dropdown>
+                  </div>
+                </div>
+              </dd>
+            </dl>
+
+            <span class="col-sm-4 col-md-4 errorMsgClass" *ngIf="errorObj.pricingModelError">{{errorObj.pricingModelError}}</span>
+          </div> -->
+          <div class="col-sm-4 col-md-4">
+            <dl>
+              <dt class="dd-label required">Currency</dt>
+              <dd>
+                <div class="custom-multi-select-dd margin-top single-select">
+                  <div class="customHeightDropdown">
+                    <ss-multiselect-dropdown [options]="currencyOptions" [settings]="singleSelectSettings" [ngModel]="currencyModel" [ngModelOptions]="{standalone: true}"
+                      (ngModelChange)="onDropDownchangeFun($event, 'currencyModelError', 'currencyModel')">
+                    </ss-multiselect-dropdown>
+                  </div>
+                </div>
+              </dd>
+            </dl>
+
+            <span class="col-sm-4 col-md-4 errorMsgClass" *ngIf="errorObj.currencyModelError">{{errorObj.currencyModelError}}</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl required">
+              <input mdInput OnlyNumber='true' maxLimit='100' autocomplete="off" placeholder="Probability of close" [ngModel]="newProposal.percentageOfClose"
+                (ngModelChange)="onchangeFun($event, 'percentageOfCloseError', 'percentageOfClose')" min=0/>
+            </md-input-container>
+
+            <span class="col-sm-4 col-md-4 errorMsgClass" *ngIf="errorObj.percentageOfCloseError">{{errorObj.percentageOfCloseError}}</span>
+          </div>
+
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input mdInput OnlyNumber='true' autocomplete="off" placeholder="Proposal Cost" [(ngModel)]="initialCost" min=0 [disabled]=true/>
+            </md-input-container>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <md-input-container class="full-width fl">
+              <input mdInput OnlyNumber='true' autocomplete="off" placeholder="Remaining Cost" [(ngModel)]="initialCost" min=0 [disabled]=true/>
+            </md-input-container>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+
+    <!--
+    <div class="row">
+      <div class="col-sm-4 col-md-4">
+        <md-input-container class="full-width fl">
+          <input mdInput type="number" placeholder="Proposal Cost" [(ngModel)]="newProposal.proposalCost" min=0/>
+        </md-input-container>
+      </div>
+    </div> -->
+
+
+  </div>
+</div>
+<!-- <div class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      LINE ITEMS
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <dt-table-clientside [config]='lineItemConfig' [data]="newProposal.lineItems" [reload]="lineItemRefresh" (onMenuSelect)="onProposalTableMenuSelect($event)"></dt-table-clientside>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-md-12 text-right">
+        <button type="button" class="btn btn-sm btn-default" (click)="addNewLineitem()">Add</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+<div class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      DOCUMENTS
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <input type="file" #inputFile (change)="fileChange($event)" [multiple]="true" placeholder="Upload file">
+      </div>
+      <div class="col-sm-12 col-md-12">
+        <dt-table-clientside [config]='documentConfig' [data]="proposalDocument1" (onMenuSelect)="onDocumentTableChange($event)"></dt-table-clientside>
+      </div>
+    </div>
+    <div class="row">
+      <!--<div class="col-sm-12 col-md-12 text-right">
+        <button type="button" class="btn btn-sm btn-default" (click)="uploadDocuments()">Add More</button>
+      </div>-->
+    </div>
+  </div>
+</div>
+<div class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      NOTES
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <md-input-container class="full-width fl">
+          <input mdInput type="text" placeholder="Description" [(ngModel)]="newProposal.description" />
+        </md-input-container>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="panel panel-default custom-container noBottomMargin noBottomRadius">
+  <!--<div class="panel-heading med-heading">
+    <div class="pull-left headingContainer">
+      HISTORY
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <dt-table-clientside [config]='myModelListConfig' [reload]="myModelListRefresh" (onMenuSelect)="onProposalTableMenuSelect($event)"></dt-table-clientside>
+      </div>
+    </div>
+  </div>-->
+  <div class="panel-footer  text-right">
+    <button type="button" class="btn btn-default" (click)="resetForm();">RESET</button>
+    <button type="button" class="btn btn-success" (click)="saveForm();">SAVE</button>
+  </div>
+</div>
+
+
+
+
+<!--<div class="panel panel-default custom-container noBottomMargin noBottomRadius">-->
+<!--<div class="panel-heading">-->
+<!--<div class="pull-left headingContainer">-->
+<!--<span class="heading-arrow" (click)="backToForm();"></span> {{newProposalLineItem.lineItemName}}-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="panel-body">-->
+<!--<div class="row">-->
+<!--<div class="col-sm-4 col-md-4">-->
+<!--<md-input-container class="full-width fl required">-->
+<!--<input mdInput type="text" [(ngModel)]="newProposalLineItem.lineItemName" placeholder="Lineitem Name" />-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--<div class="col-sm-4 col-md-4">-->
+<!--<dl>-->
+<!--<dt class="dd-label">Product</dt>-->
+<!--<dd>-->
+<!--<div class="custom-multi-select-dd margin-top single-select">-->
+<!--<div class="customHeightDropdown">-->
+<!--<ss-multiselect-dropdown [options]="productOptions" [settings]="singleSelectSettings" [(ngModel)]="productOptionsModel" (ngModelChange)="onProductChange($event)">-->
+<!--</ss-multiselect-dropdown>-->
+<!--</div>-->
+<!--</div>-->
+<!--</dd>-->
+<!--</dl>-->
+<!--</div>-->
+<!--<div class="col-sm-4 col-md-4">-->
+<!--<dl>-->
+<!--<dt class="dd-label">Add Unit</dt>-->
+<!--<dd>-->
+<!--<div class="custom-multi-select-dd margin-top">-->
+<!--<div class="customHeightDropdown">-->
+<!--<ss-multiselect-dropdown [options]="adUnitOptions" [(ngModel)]="adUnitOptionsModel" [disabled]="disabledFormElements">-->
+<!--</ss-multiselect-dropdown>-->
+<!--</div>-->
+<!--</div>-->
+<!--</dd>-->
+<!--</dl>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="row">-->
+<!--<div class="col-sm-4 col-md-4">-->
+<!--<div class="custom-date-picker">-->
+<!--<md-input-container class="required">-->
+<!--<input mdInput [ngModel]="newProposalLineItem.flightStartdate | date: 'dd-MM-yyyy'" (ngModelChange)="startDateChanged($event)"-->
+<!--placeholder="Start Date" [readonly]="true">-->
+<!--<button mdSuffix [mdDatepickerToggle]="" (click)="newProposalLineItem['isNewStartDateOpen'] = !newProposalLineItem['isNewStartDateOpen']"></button>-->
+<!--</md-input-container>-->
+<!--<div class="date-picker-container" *ngIf="newProposalLineItem['isNewStartDateOpen']">-->
+<!--<datepicker [(ngModel)]="newProposalLineItem.flightStartdate" (selectionDone)="newProposalLineItem['isNewStartDateOpen']=false"></datepicker>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="col-sm-4 col-md-4">-->
+<!--<div class="custom-date-picker">-->
+<!--<md-input-container class="required">-->
+<!--<input mdInput [ngModel]="newProposalLineItem.flightEndDate | date: 'dd-MM-yyyy'" (ngModelChange)="endDateChanged($event)"-->
+<!--placeholder="End Date" [readonly]="true">-->
+<!--<button mdSuffix [mdDatepickerToggle]="" (click)="newProposalLineItem['isNewEndDateOpen'] = !newProposalLineItem['isNewEndDateOpen']"></button>-->
+<!--</md-input-container>-->
+<!--<div class="date-picker-container" *ngIf="newProposalLineItem['isNewEndDateOpen']">-->
+<!--<datepicker [(ngModel)]="newProposalLineItem.flightEndDate" (selectionDone)="newProposalLineItem['isNewEndDateOpen']=false"></datepicker>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="panel panel-default custom-container noBottomMargin noBottomRadius">-->
+<!--<div class="panel-heading med-heading">-->
+<!--<div class="pull-left headingContainer">-->
+<!--Targeting-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="panel-body">-->
+<!--<div class="row">-->
+<!--<div class="col-sm-6 col-md-6">-->
+<!--<dl>-->
+<!--<dt class="dd-label">Target Type</dt>-->
+<!--<dd>-->
+<!--<div class="custom-multi-select-dd margin-top single-select">-->
+<!--<ss-multiselect-dropdown [options]="newProposalLineItem.targetTypeOptions" [settings]="singleSelectSettings" [(ngModel)]="newProposalLineItem.targetTypeOptionsModel"-->
+<!--[ngModelOptions]="{standalone: true}" (ngModelChange)="onTargetTypeChange($event)">-->
+<!--</ss-multiselect-dropdown>-->
+<!--</div>-->
+<!--</dd>-->
+<!--</dl>-->
+<!--<select-list [dataList]="audienceTargetValues" [type]="'multi-select'" (onSelect)="onAudienceTargetValuesSelect($event)"></select-list>-->
+<!--</div>-->
+<!--<div class="col-sm-6 col-md-6">-->
+<!--<dt-table [config]='targetTypeConfig' [data]="newRowsAdded" (onMenuSelect)="onTargetTypeMenuSelect($event)"></dt-table>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="row">-->
+<!--<div class="col-sm-4 col-md-4 ">-->
+<!--<button type="button" class="btn btn-sm btn-default" (click)="addTargetType()">Add Now</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="panel panel-default custom-container noBottomMargin noBottomRadius">-->
+<!--<div class="panel-heading med-heading">-->
+<!--<div class="pull-left headingContainer">-->
+<!--Rate Card-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="panel-body">-->
+<!--<div class="row">-->
+<!--<div class="col-sm-4 col-md-4">-->
+<!--<md-input-container class="full-width fl ">-->
+<!--<input mdInput type="text" placeholder="Rate Crd Price" />-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--<div class="col-sm-4 col-md-4 ">-->
+<!--<button type="button" class="btn btn-sm btn-default">Check Price</button>-->
+<!--</div>-->
+<!--<div class="col-sm-4 col-md-4 text-right link-show">-->
+<!--<a href="#">View Price Calculation</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="panel panel-default custom-container noBottomMargin noBottomRadius">-->
+<!--<div class="panel-heading med-heading">-->
+<!--<div class="pull-left headingContainer">-->
+<!--Line Item Details-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="panel-body">-->
+<!--<div class="row">-->
+<!--<div class="col-sm-4 col-md-4">-->
+<!--<dl>-->
+<!--<dt class="dd-label">Spec Type</dt>-->
+<!--<dd>-->
+<!--<div class="custom-multi-select-dd margin-top single-select">-->
+<!--<ss-multiselect-dropdown [options]="newProposalLineItem.specTypeOptions" [settings]="singleSelectSettings" [(ngModel)]="newProposalLineItem.specTypeOptionsModel"-->
+<!--[ngModelOptions]="{standalone: true}">-->
+<!--</ss-multiselect-dropdown>-->
+<!--</div>-->
+<!--</dd>-->
+<!--</dl>-->
+<!--</div>-->
+<!--<div class="col-sm-4 col-md-4">-->
+<!--<dl>-->
+<!--<dt class="dd-label">Price Type</dt>-->
+<!--<dd>-->
+<!--<div class="custom-multi-select-dd margin-top single-select">-->
+<!--<div class="customHeightDropdown">-->
+<!--<ss-multiselect-dropdown [options]="roleOptions" [settings]="singleSelectSettings" [(ngModel)]="roleOptionsModel" [ngModelOptions]="{standalone: true}">-->
+<!--</ss-multiselect-dropdown>-->
+<!--</div>-->
+<!--</div>-->
+<!--</dd>-->
+<!--</dl>-->
+<!--</div>-->
+<!--<div class="col-sm-4 col-md-4">-->
+<!--<md-input-container class="full-width fl ">-->
+<!--<input mdInput type="text" placeholder="CPM(S)" />-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="row">-->
+<!--<div class="col-sm-4 col-md-4">-->
+<!--<md-input-container class="full-width fl ">-->
+<!--<input mdInput type="text" placeholder="Offer Impressions" />-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--<div class="col-sm-4 col-md-4">-->
+<!--<md-input-container class="full-width fl ">-->
+<!--<input mdInput type="text" placeholder="Price" />-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--<div class="col-sm-4 col-md-4">-->
+<!--<md-input-container class="full-width fl ">-->
+<!--<input mdInput type="text" placeholder="Avails" />-->
+<!--</md-input-container>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div *ngIf="showForm" class="panel-footer  text-right">-->
+<!--<button type="button" class="btn btn-default" (click)="resetForm();">RESET</button>-->
+<!--<button type="button" class="btn btn-success" (click)="saveForm();">SAVE</button>-->
+<!--</div>-->
+<!--</div>-->

@@ -1,0 +1,48 @@
+.w100{
+  width: 100px;
+  display: inline-block;
+}
+.w200{
+  width: 200px;
+  display: inline-block;
+}
+.cust-right {
+  float: right;
+  margin-right: 10px;
+  position: relative;
+  .dd-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #bdbdbd;
+    top: -10px;
+    left: 0px;
+    padding: 0;
+    position: absolute;
+  }
+}
+.custom-container {
+  .panel-body {
+    .row {
+      &.no-top-margin {
+        margin: 0px;
+      }
+      .border-right{
+        border-right:1px solid #f7f8fa;
+      }
+      .heading{
+        margin: 12px 0px;
+        font-weight: 700;
+        text-align: -moz-center;
+        text-align: -webkit-center;
+      }
+       .status-view.heading{
+        padding-left:5px;
+      }
+      .drop-down{
+        margin-top:2px;
+      }
+    }
+  }
+}
+
+

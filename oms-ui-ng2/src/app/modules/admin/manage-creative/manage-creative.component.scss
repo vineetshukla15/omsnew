@@ -1,0 +1,55 @@
+.formTitle {
+    text-transform:uppercase;
+}
+.formInputFields  {
+    .description {
+        input[type=text]{
+            width: 87.5%;
+            max-width: 100%;
+            border-radius: 5px;
+            border: 1px solid #e1e1e1;
+            background-color: #f7f7f7;
+            height: 135px;
+        }       
+    }
+}
+.custom-modal-css {
+  margin-top: 9%;
+  .confirm-modal{
+    padding: 15px;
+    text-align: center;
+    .btn-container{
+      text-align: right;
+    }
+  }
+
+}
+
+
+.required-error-message{
+    width: 100%;
+    text-align: center;
+    padding: 6px;
+    border-radius: 2px;
+    margin-top: 3px;
+    background-color: #FFE2E2;
+    color: #FF0000;
+    font-size: 14px;
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+.required-success-message{
+    width: 100%;
+    text-align: center;
+    padding: 6px;
+    border-radius: 2px;
+    margin-top: 3px;
+    background-color: #b1dca3;
+    color: #ffffff;
+    font-size: 14px;
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+

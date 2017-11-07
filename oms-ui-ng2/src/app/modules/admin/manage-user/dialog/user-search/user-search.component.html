@@ -1,0 +1,12 @@
+<div class="panel panel-default custom-container" id="lpdaUserTable">
+  <div class="panel-heading">
+    <div class="pull-left headingContainer">
+      USERS
+    </div>
+
+  </div>
+  <div class="panel-body noPadding transparent-bg">
+    <dt-table [config]='userListDTConfig1' [reload]="userListRefresh1" [searchColIndex]="userListSearchMOdel1.colIndex" [searchText]="userListSearchMOdel1.searchTxt"
+      (onMenuSelect)="onUserTableMenuSelect($event)" (onRowClick)="rowClickEvent($event)"></dt-table>
+  </div>
+</div>

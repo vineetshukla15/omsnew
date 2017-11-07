@@ -1,0 +1,101 @@
+<div class="container-fluid">
+
+  <section>
+    <div class="row">
+      <div class="wrapper-menu col-sm-3 col-lg-2 noPadding sideNav col-xs-12"  id="wrapperMenu" [ngClass]="{'is-open': isOpen }"><!--[ngClass]="'isOpen'"[ngClass]="{'is-open': isOpen }"-->
+        <div class="row row-offcanvas row-offcanvas-left">
+          <!-- sidebar -->
+          <div class="column headLogo">
+            <div class="logo">
+              <img src="./assets/images/logo.png" class="img-responsive bigLogo">
+              <img src="./assets/images/logo-icon.png" class="img-responsive smallLogo">
+            </div>
+          </div>
+          <div malihu-scrollbar [scrollbarOptions]="scrollbarOptions" class="sibebarScroll">
+            <div class="column side-nav sidebar-offcanvas" id="sidebar">
+              <ul class="nav" id="menu">
+                <li class="text-right">
+                    <a href="javascript:void(0)" class="toggleNav" data-toggle="offcanvas" id="offCanvas">
+                      <div class="iconHamBurgerExpand" ></div><!--[hidden]="iconHamBurgerExpand"-->
+                      <div class="iconHamBurgerCollapse"></div><!--[hidden]="!iconHamBurgerExpand"-->
+                    </a>
+                </li>
+                <li *ngFor="let item of sideNavigation">
+
+                  <a href="javascript:void(0);"  class="navLis" (click)="toggleSection($event,item);" [ngClass]="{'selected': item.isSelected }">
+                    <div class="allICons {{item['iconClass']}}"></div>
+                    <span class="collapse in ">{{item.menu}}</span>
+                    <div class="allArrows leftArrowImg" *ngIf="item.subMenu?.length>0"
+                         [ngClass]="{'active': item['isSelected']}"></div>
+                  </a>
+
+                  <ul class="nav nav-stacked left-submenu" [ngClass]="{'active': item.isSelected }">
+                    <ng-container *ngFor="let subMenu of item.subMenu">
+                      <li>
+                        <a class="navLis" href="javascript:void(0);"
+                           [ngClass]="{'selected': subMenu.isSelected}"
+                           [routerLinkActive]="['selected']"
+                           (click)="setActiveSubMenu($event, item.subMenu); subMenu['isSelected'] = !subMenu['isSelected']"
+                           [routerLinkActiveOptions]="{ exact: false }"
+                           [routerLink]=" subMenu.path ? [ subMenu.path ] :[] " *ngIf="isSubMenuVisible(subMenu.permKey)">{{subMenu.name}}</a>
+                           
+                           <div class="navLis inactiveList" *ngIf="! isSubMenuVisible(subMenu.permKey)">{{subMenu.name}}</div>
+                      </li>
+                      </ng-container>
+                  </ul>
+
+                </li>
+               </ul>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mainContent col-sm-9 col-lg-10 pull-right col-xs-12" id="contentWrapper" [ngClass]="{'is-open': isOpen }"><!--[ngClass]="{'is-open': isOpen }"-->
+        <div class="row mainContent">
+          <div class="col-xs-2 headerCont">
+            <div class="title">
+              <!--<p class="width0">
+                <a href="javascript:void(0)" data-toggle="offcanvas" id="offCanvas">
+                  <div class="iconHamBurgerExpand"></div>
+                </a>
+              </p>-->
+            </div>
+          </div>
+          <div class="col-xs-10 col-lg-10 text-right userInfo">
+            <div class="user">
+              <div class="d-inline-block text-left verticalMiddle">
+                <div class="userName bold">{{logedInUserFullName}}</div>
+                <div class="userRole">{{logedInUserrRoleName}}</div>
+              </div>
+              <div class="d-inline-block user-image">
+                <img class="img-rounded" src="./assets/images/User-icon.png"></div>
+                <button md-icon-button (click)="isUserInfoDDOpen = !isUserInfoDDOpen" (clickOutside)="isUserInfoDDOpen = false;" class="logout paddingRight16 logoutImg" title="Logout"></button>
+                <!--<button md-icon-button class="logout paddingRight16 logoutImg" title="Logout" (clickOutside)="close($event)"></button>-->
+                <!--<md-menu #menu="mdMenu" class="admin-menu">-->
+                  <!--<button md-menu-item (click)="logOut()">-->
+                    <!--<md-icon>low_priority</md-icon>-->
+                    <!--<span >LOG OUT</span>-->
+                  <!--</button>-->
+                <!--</md-menu>-->
+                <div class="user-profile-dd" [ngClass]="{'hide':!isUserInfoDDOpen}">
+                <!--<div class="user-profile-dd hide">-->
+                  <a href="javascript:void(0);"><span class="fa fa-user" aria-hidden="true"></span>Profile</a>
+                  <a href="javascript:void(0);" (click)="logOut()"><span class="fa fa-sign-out" aria-hidden="true"></span>Log out</a>
+                </div>
+              <!--<md-select ng-model="salesTarget" class="md-no-underline">
+                    <md-option class="textCenter" (click)="logOut()">Logout</md-option>
+                  </md-select>
+            <button class="logout paddingRight16" type="submit" (click)="logOut()" title="Logout"><span class="fa fa-sign-out"></span></button>-->
+            </div>
+          </div>
+        </div>
+        <div class="row content-pages" malihu-scrollbar [scrollbarOptions]="scrollbarOptions">
+          <div class="col-xs-12 col-sm-12 outlet-wrapper">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

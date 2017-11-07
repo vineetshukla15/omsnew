@@ -1,0 +1,259 @@
+/* DATA TABLE CSS*/
+.custom-dt-table{
+  .dataTables_wrapper {
+    color: #212121;
+    .no-footer {
+      border: 0px !important;
+    }
+    thead{
+     /* .sorting {
+        background-image: url(./assets/images/data-table/sort_both.png);
+        background-position: 83%;
+      }
+      .sorting_desc {
+        background-image: url(./assets/images/data-table/sort_desc.png);
+        background-position: 83%;
+      }
+      .sorting_asc {
+        background-image: url(./assets/images/data-table/sort_asc.png);
+        background-position: 83%;
+      }*/
+      .sorting_asc {
+        background: none;
+      }
+      .sorting_desc {
+        background: none;
+      }
+      .sorting {
+        background: none;
+      }
+      .sorting_disabled {
+        .arrow-hack{
+          display: none;
+        }
+      }
+      span{
+        &.arrow-hack {
+          margin-left: 10px;
+        }
+        &.asc {
+          background: url("./assets/images/data-table/sort_asc.png") no-repeat center center;
+        }
+        &.desc {
+          background: url("./assets/images/data-table/sort_desc.png") no-repeat center center;
+        }
+        &.sort {
+          background: url("./assets/images/data-table/sort_both.png") no-repeat center center;
+        }
+      }
+
+      tr{
+        background:#FFF;
+      }
+      th, td{
+        height:40px;
+      }
+      th{
+        border-bottom: 1px solid #f1f2f7;
+        font-weight: 700;
+      }
+    }
+    tbody{
+      tr{
+        background-color: #FFF !important;
+        &:hover{
+          background-color: #99a5cf !important;
+          color:#FFF;
+          .dots{
+            background-position: -80px -716px;
+            background-size: 250px 410px;
+          }
+          .txt-color{
+            color:#FFF;
+          }
+          .col-breadcrumb{
+            a{
+              color: #fff !important;
+            }
+            .sub-heading{
+              color: #FFF;
+            }
+          }
+        }
+        td{
+          position: relative;
+          padding:11px 20px;
+          border-top: 1px solid #e6e6e6;
+          &.sorting_1{
+            background: none!important;
+          }
+          &.text-center{
+            text-align: center;
+          }
+          .green-txt{
+            color:#45C264;
+            font-weight:600;
+          }
+          .red-txt{
+            color:#E86C79;
+            font-weight:600;
+          }
+        }
+      }
+    }
+    .dataTables_processing{
+      position: absolute;
+      width:100%;
+      height:100%;
+      top:27px;
+    }
+    .dataTables_paginate{
+      float: left;
+      padding: 12px 5px!important;
+      left:0;
+      .paginate_button{
+        &.first,&.last{
+          display: none;
+        }
+        &:hover {
+          color: inherit !important;
+          border: 1px solid transparent !important;
+          background-color: inherit !important;
+          background: inherit !important;;
+        }
+        &:focus{
+          outline:none !important;
+        }
+      }
+      .paginationTxt {
+        color:rgba(0,0,0,0.6);
+        font-size: 14px;
+        .cur-page {
+          color:#212121;
+          padding: 2px 12px;
+          margin: 4px;
+          border-radius: 3px;
+          border: 1px solid #7d7d7d;
+        }
+      }
+    }
+    .vertical-divider{
+      height: 28px;
+      display: inline-block;
+      float: left;
+      margin: 12px;
+      background: #939393;
+      width: 1px;
+      border: 0;
+      margin: 16px 5px!important;
+    }
+    .dataTables_length {
+      color: #939393;
+      padding: 17px 22px 11px 18px!important;
+      label{
+        font-size: 14px !important;
+        font-weight:normal;
+      }
+      select{
+        color: #212121;
+        outline: none;
+        padding: 2px 20px 2px 7px;
+        text-align: center;
+        background: transparent;
+        border:1px solid #7d7d7d;
+        width:auto;
+        border-radius:4px;
+        background: url(./assets/images/data-table/br_down.png) no-repeat right;
+        background-position: 88% 8px;
+        background-size: 23%;
+        -webkit-appearance: none;
+      }
+    }
+    .dots{
+      cursor: pointer;
+    }
+    .tooltipDel{
+      display: none;
+      position: absolute;
+      right: 52px;
+      top: 2px;
+      z-index: 99;
+      width: 165px;
+      background: #fff;
+      border-radius: 4px;
+      box-shadow: 0px 3px 12px -2px #ccc;
+      a, div{
+        display: block;
+        padding: 5px 10px;
+        line-height: 25px;
+        color: #000;
+        text-align: left;
+        &:hover{
+          color: #fff;
+          background:#99a5cf;
+        }
+        & + a{
+          border-top: 1px solid #d9d9d9;
+        }
+        span{
+          margin-right: 10px;
+        }
+      }
+      div{
+        opacity: 0.3;
+      }
+    }
+    .col-breadcrumb{
+      a{
+        color: #337ab7!important;
+        font-weight: 600;
+      }
+      .sub-heading{
+        font-size: 10px;
+        color: #a8a8b2;
+      }
+    }
+  }
+}
+
+table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before,
+table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before{
+  content:'';
+  width:20px;
+  height:20px;
+  background-color:transparent;
+  border:0;
+  top:12px;
+  left:6px;
+  box-shadow:none;
+  background-image: url('./assets/images/data-table/details_open.png')
+}
+table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td:first-child:before,
+table.dataTable.dtr-inline.collapsed>tbody>tr.parent>th:first-child:before{
+  content:'';
+  width:20px;
+  height:20px;
+  border:0;
+  top:12px;
+  left:6px;
+  box-shadow:none;
+  background-color:transparent;
+  background-image: url('./assets/images/data-table/details_close.png')
+}
+
+/*.custom-dt-table .dataTables_wrapper tbody tr:hover .child{
+  background-color: #99a5cf !important;
+  color: #FFF;
+}*/
+
+.custom-dt-table .dataTables_wrapper tbody tr:hover a{
+  text-decoration: underline;
+}
+
+/*.dataTables_scrollBody table thead{
+  display: none;
+}
+*/
+.dataTables_wrapper.no-footer .dataTables_scrollBody{
+  border-bottom: 0 !important;
+}
